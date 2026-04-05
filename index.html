@@ -748,7 +748,7 @@
       <div><div class="hero-stat-num" data-count="10" data-suffix="+">0+</div><div class="hero-stat-label">ниш адаптировано</div></div>
       <div><div class="hero-stat-num">2 нед</div><div class="hero-stat-label">до запуска платформы</div></div>
       <div><div class="hero-stat-num">24/7</div><div class="hero-stat-label">работает AI-агент</div></div>
-      <div><div class="hero-stat-num" data-count="0" data-suffix="">0</div><div class="hero-stat-label">программистов нужно</div></div>
+      <div><div class="hero-stat-num">12</div><div class="hero-stat-label">готовых ниш</div></div>
     </div>
   </div>
 </section>
@@ -826,10 +826,11 @@
     <div class="modules-panel" id="modulesPanel">
       <div class="modules-header">
         <span id="modulesIcon" style="font-size:28px;"></span>
-        <div>
+        <div style="flex:1;">
           <h3 id="modulesTitle"></h3>
           <p style="color:var(--muted);font-size:13px;margin-top:2px;">Модули платформы для этой ниши</p>
         </div>
+        <button onclick="closeNiche()" title="Закрыть" style="background:none;border:1px solid var(--border);border-radius:50%;width:36px;height:36px;cursor:pointer;font-size:18px;color:var(--muted);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background 0.2s;" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='none'">←</button>
       </div>
       <div class="modules-grid" id="modulesGrid"></div>
       <div class="modules-cta">
@@ -848,18 +849,18 @@
     <div class="steps-grid">
       <div class="step-card reveal">
         <div class="step-num">01</div>
-        <div class="step-title">Выбираешь нишу</div>
-        <div class="step-desc">Стоматология, бьюти, ресторан — говоришь нам. Мы адаптируем ядро платформы под твой бизнес.</div>
+        <div class="step-title">Выбрать нишу</div>
+        <div class="step-desc">Мы адаптируем платформу под ваш бизнес и под ваши задачи.</div>
       </div>
       <div class="step-card reveal">
         <div class="step-num">02</div>
-        <div class="step-title">Мы адаптируем ядро</div>
-        <div class="step-desc">Берём готовую платформу и настраиваем под твой бизнес за 2 недели. Без программистов с твоей стороны.</div>
+        <div class="step-title">Мы создаём платформу</div>
+        <div class="step-desc">Настраиваем под ваши задачи за<br><strong>2 недели.</strong> Запускаем и тестируем с полным спектром услуг.</div>
       </div>
       <div class="step-card reveal">
         <div class="step-num">03</div>
-        <div class="step-title">Запускаешь с клиентами</div>
-        <div class="step-desc">Получаешь платформу под своим брендом, готовую к работе. AI-агент уже работает и принимает заявки.</div>
+        <div class="step-title">Запускаем с клиентами</div>
+        <div class="step-desc">Получаешь платформу под своим брендом, готовую к работе. AI-агент уже работает и принимает заявки, оплаты.</div>
       </div>
     </div>
   </div>
@@ -912,9 +913,63 @@
         <div class="feature-title">Аналитика</div>
         <div class="feature-desc">Конверсия, выручка, воронка — всё в одном дашборде. Понятно без аналитика.</div>
       </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon">🔒</div>
+        <div class="feature-title">Безопасность данных</div>
+        <div class="feature-desc">Данные зашифрованы, резервные копии каждый день. Каждый клиент видит только своё.</div>
+      </div>
     </div>
   </div>
 </section>
+
+<!-- ── AGENTS ───────────────────────────────── -->
+<section id="agents" style="padding:60px 0;background:linear-gradient(135deg,#1e1b4b 0%,#312e81 50%,#1e40af 100%);">
+  <div class="container">
+    <div class="section-label"><div class="tag" style="background:rgba(255,255,255,0.15);color:#fff;">AI-агент</div></div>
+    <h2 class="section-title" style="color:#fff;">Попробуй агента прямо сейчас</h2>
+    <p class="section-sub" style="color:rgba(255,255,255,0.75);">Агент отвечает на вопросы, принимает заявки и записывает клиентов — 24/7 без выходных</p>
+    <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:36px;">
+      <button onclick="openAgentChat()" style="display:flex;align-items:center;gap:12px;background:#fff;color:#312e81;border:none;border-radius:14px;padding:18px 32px;font-size:17px;font-weight:700;cursor:pointer;box-shadow:0 8px 32px rgba(0,0,0,0.2);transition:transform 0.2s,box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 12px 40px rgba(0,0,0,0.3)'" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 8px 32px rgba(0,0,0,0.2)'">
+        <span style="font-size:24px;">🤖</span>
+        <div style="text-align:left;">
+          <div>AI-агент на сайте</div>
+          <div style="font-size:13px;font-weight:400;color:#6366f1;">Открыть чат в браузере</div>
+        </div>
+      </button>
+      <a href="https://t.me/Irinasmrgmailcom" target="_blank" style="display:flex;align-items:center;gap:12px;background:#229ED9;color:#fff;border:none;border-radius:14px;padding:18px 32px;font-size:17px;font-weight:700;cursor:pointer;box-shadow:0 8px 32px rgba(0,0,0,0.2);transition:transform 0.2s,box-shadow 0.2s;text-decoration:none;" onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 12px 40px rgba(0,0,0,0.3)'" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 8px 32px rgba(0,0,0,0.2)'">
+        <span style="font-size:24px;">✈️</span>
+        <div style="text-align:left;">
+          <div>Написать в Telegram</div>
+          <div style="font-size:13px;font-weight:400;color:rgba(255,255,255,0.8);">@Irinasmrgmailcom</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- чат-виджет агента -->
+<div id="agentWidget" style="display:none;position:fixed;bottom:90px;right:24px;width:340px;background:#fff;border-radius:20px;box-shadow:0 20px 60px rgba(0,0,0,0.2);z-index:9999;overflow:hidden;animation:fadeInUp 0.3s ease;">
+  <div style="background:linear-gradient(135deg,#6366f1,#818cf8);padding:16px 20px;display:flex;align-items:center;justify-content:space-between;">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <span style="font-size:22px;">🤖</span>
+      <div>
+        <div style="color:#fff;font-weight:700;font-size:15px;">AI-агент Univers</div>
+        <div style="color:rgba(255,255,255,0.8);font-size:12px;">● онлайн</div>
+      </div>
+    </div>
+    <button onclick="closeAgentChat()" style="background:rgba(255,255,255,0.2);border:none;color:#fff;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;">×</button>
+  </div>
+  <div id="agentMessages" style="padding:16px;height:240px;overflow-y:auto;display:flex;flex-direction:column;gap:10px;">
+    <div style="background:#f1f5f9;border-radius:12px 12px 12px 4px;padding:10px 14px;font-size:14px;max-width:85%;color:#1e293b;">Привет! Я AI-агент платформы Univers. Расскажи о своём бизнесе — подберём нишу и покажем демо 🚀</div>
+  </div>
+  <div style="padding:12px 16px;border-top:1px solid #e2e8f0;display:flex;gap:8px;">
+    <input id="agentInput" type="text" placeholder="Напиши сообщение..." onkeydown="if(event.key==='Enter')sendAgentMsg()" style="flex:1;border:1px solid #e2e8f0;border-radius:10px;padding:9px 13px;font-size:14px;outline:none;font-family:inherit;">
+    <button onclick="sendAgentMsg()" style="background:#6366f1;color:#fff;border:none;border-radius:10px;padding:9px 14px;cursor:pointer;font-size:16px;">→</button>
+  </div>
+</div>
+
+<!-- плавающая кнопка агента -->
+<button id="agentFab" onclick="openAgentChat()" style="position:fixed;bottom:88px;right:24px;width:56px;height:56px;background:linear-gradient(135deg,#6366f1,#818cf8);border:none;border-radius:50%;cursor:pointer;box-shadow:0 4px 20px rgba(99,102,241,0.5);z-index:9998;font-size:24px;display:none;align-items:center;justify-content:center;transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">🤖</button>
 
 <!-- ── CASES ───────────────────────────────── -->
 <section id="cases">
@@ -975,7 +1030,7 @@
             <td>Стоимость старта</td>
             <td>1–10 млн ₽</td>
             <td>от 50 тыс ₽</td>
-            <td class="col-highlight">от 30 тыс ₽</td>
+            <td class="col-highlight">по запросу</td>
           </tr>
           <tr>
             <td>AI-агент в Telegram</td>
@@ -1112,7 +1167,7 @@
           Как работает AI-агент?
           <span class="faq-icon">+</span>
         </button>
-        <div class="faq-a">Агент работает на Claude (Anthropic) — одна из лучших языковых моделей. Понимает контекст разговора, отвечает на сложные вопросы, принимает заявки и записывает клиентов. Это не скриптовый бот.</div>
+        <div class="faq-a">Агент работает 24/7. Понимает контекст разговора, отвечает на сложные вопросы, принимает заявки и записывает клиентов. Выполняет все функции. Это не скриптовый бот.</div>
       </div>
       <div class="faq-item reveal">
         <button class="faq-q" onclick="toggleFaq(this)">
@@ -1142,9 +1197,9 @@
       <div class="contact-info-block reveal">
         <h3>Univers Platform</h3>
         <p>Поможем выбрать нишу, покажем демо под ваш бизнес и ответим на любые вопросы. Просто напишите — без обязательств.</p>
-        <div class="contact-item"><span class="contact-item-icon">📱</span><span>Telegram: @univers_platform</span></div>
-        <div class="contact-item"><span class="contact-item-icon">📧</span><span>hello@univers.ru</span></div>
-        <div class="contact-item"><span class="contact-item-icon">⏰</span><span>Пн–Пт, 9:00–20:00 МСК</span></div>
+        <div class="contact-item"><span class="contact-item-icon">📱</span><span>Telegram: @Irinasmrgmailcom</span></div>
+        <div class="contact-item"><span class="contact-item-icon">📞</span><span>+7 937-658-10-31</span></div>
+        <div class="contact-item"><span class="contact-item-icon">⏰</span><span>Пн–Пт, 9:00–19:00 МСК</span></div>
         <div class="contact-item"><span class="contact-item-icon">🚀</span><span>Запускаем за 2 недели</span></div>
       </div>
       <div class="contact-card reveal">
@@ -1183,7 +1238,7 @@
 <!-- ── CTA ────────────────────────────────── -->
 <section id="cta">
   <div class="cta-inner reveal">
-    <h2>Готов запустить свою платформу?</h2>
+    <h2>Готовы запустить свою платформу?</h2>
     <p>Скажи нам нишу — покажем демо под твой бизнес. Без обязательств, 30 минут.</p>
     <a href="#" class="btn-white" onclick="openModal()">✨ Хочу демо для своей ниши</a>
   </div>
@@ -1219,8 +1274,8 @@
         <input class="form-input" type="text" id="fieldName" placeholder="Имя или имя + фамилия">
       </div>
       <div class="form-group">
-        <label class="form-label">Телефон или Telegram</label>
-        <input class="form-input" type="text" id="fieldContact" placeholder="+7 (xxx) xxx-xx-xx или @username">
+        <label class="form-label">Номер телефона</label>
+        <input class="form-input" type="tel" id="fieldContact" placeholder="+7 (xxx) xxx-xx-xx">
       </div>
       <div class="form-group">
         <label class="form-label">Ниша вашего бизнеса</label>
@@ -1260,21 +1315,21 @@ const nicheData = {
     modules: [
       { icon: '📅', title: 'Онлайн-запись к врачу', desc: 'Клиент сам выбирает врача, дату и время' },
       { icon: '🗂️', title: 'Карточки пациентов', desc: 'История лечения, снимки, диагнозы' },
-      { icon: '🔔', title: 'Напоминания о визите', desc: 'Автоматически в Telegram или SMS' },
+      { icon: '🔔', title: 'Напоминания о визите', desc: 'Автоматически в Telegram, MAX или SMS' },
       { icon: '📊', title: 'CRM-воронка', desc: 'Новый → Записан → Принят → Оплачен' },
-      { icon: '🤖', title: 'AI-агент на сайте', desc: 'Отвечает и записывает 24/7' },
-      { icon: '💳', title: 'Онлайн-оплата', desc: 'ЮKassa прямо с сайта' },
+      { icon: '🤖', title: 'AI-агент на сайте', desc: 'Отвечает и записывает 24/7. Находит информацию о клиенте, выполняет все задачи.' },
+      { icon: '💳', title: 'Онлайн-оплата', desc: 'Т-банк, Сбербанк, ЮKassa прямо с сайта' },
     ]
   },
   beauty: {
     icon: '💅', name: 'Бьюти',
     modules: [
-      { icon: '📅', title: 'Онлайн-запись к мастеру', desc: 'Мастер, услуга, время — клиент сам' },
+      { icon: '📅', title: 'Онлайн-запись к мастеру', desc: 'Мастер, услуга, время — клиент сам выбирает' },
       { icon: '🖼️', title: 'Портфолио работ', desc: 'Галерея до/после, каждый мастер' },
       { icon: '👩‍🎨', title: 'Профили мастеров', desc: 'Услуги, цены, отзывы, расписание' },
       { icon: '🎟️', title: 'Абонементы и пакеты', desc: 'Продажа пакетов визитов онлайн' },
       { icon: '⭐', title: 'Отзывы клиентов', desc: 'Автосбор после визита, рейтинг мастера' },
-      { icon: '🤖', title: 'Telegram-бот', desc: 'Запись, напоминания, акции' },
+      { icon: '🤖', title: 'AI-агент на сайте и в Telegram', desc: 'Клиент пишет в браузере или Telegram — агент записывает, напоминает, отвечает 24/7' },
     ]
   },
   realestate: {
@@ -1284,19 +1339,19 @@ const nicheData = {
       { icon: '📋', title: 'Заявки покупателей', desc: 'Лид попадает в CRM автоматически' },
       { icon: '👔', title: 'Профили агентов', desc: 'Объекты, сделки, статистика' },
       { icon: '📁', title: 'Документы по сделке', desc: 'Договоры, акты, история переписки' },
-      { icon: '📊', title: 'Аналитика продаж', desc: 'Конверсия, выручка, воронка по агентам' },
-      { icon: '🤖', title: 'AI-агент', desc: 'Подбирает объекты и отвечает' },
+      { icon: '📊', title: 'Аналитика продаж', desc: 'Конверсия, выручка, воронка по агентам и по клиентам' },
+      { icon: '🤖', title: 'AI-агент', desc: 'Клиент описывает бюджет и район — агент сам находит подходящие объекты из каталога' },
     ]
   },
   restaurant: {
     icon: '🍕', name: 'Ресторан',
     modules: [
-      { icon: '🍽️', title: 'Меню с категориями', desc: 'Фото блюд, состав, КБЖУ, цены' },
-      { icon: '🛒', title: 'Онлайн-заказы', desc: 'Сайт и Telegram-бот' },
-      { icon: '🚴', title: 'Доставка и статусы', desc: 'Клиент видит в реальном времени' },
-      { icon: '🪑', title: 'Бронирование столика', desc: 'Онлайн с выбором зала и времени' },
+      { icon: '🍽️', title: 'Меню с категориями', desc: 'Фото блюд, состав, калории, цены' },
+      { icon: '🛒', title: 'Онлайн-заказы', desc: 'Через сайт в браузере или Telegram-бот' },
+      { icon: '🚴', title: 'Доставка и статусы', desc: 'Клиент видит статус заказа на сайте в реальном времени' },
+      { icon: '🪑', title: 'Бронирование столика', desc: 'Дата, время, зал и число гостей — бронь онлайн в 2 клика' },
       { icon: '🎁', title: 'Акции и скидки', desc: 'Купоны, программа лояльности' },
-      { icon: '🤖', title: 'Telegram-заказы', desc: 'Полный заказ в мессенджере' },
+      { icon: '🤖', title: 'Заказы на сайте и в боте', desc: 'Полный заказ через браузер или мессенджер на выбор' },
     ]
   },
   school: {
@@ -1307,7 +1362,7 @@ const nicheData = {
       { icon: '🎥', title: 'Уроки и вебинары', desc: 'Видео, тексты, тесты в одном месте' },
       { icon: '📝', title: 'Домашние задания', desc: 'Ученик сдаёт, куратор проверяет' },
       { icon: '📈', title: 'Прогресс обучения', desc: 'Что пройдено и что осталось' },
-      { icon: '🤖', title: 'AI-куратор', desc: 'Отвечает по курсу 24/7' },
+      { icon: '🤖', title: 'AI-куратор', desc: 'Отвечает по курсу 24/7, выполняет все задачи' },
     ]
   },
   fitness: {
@@ -1324,12 +1379,12 @@ const nicheData = {
   auto: {
     icon: '🚗', name: 'Автосервис',
     modules: [
-      { icon: '🔧', title: 'Заявки на ремонт', desc: 'Онлайн или через Telegram-бота' },
-      { icon: '🚗', title: 'История ТО автомобиля', desc: 'Работы, запчасти, даты' },
+      { icon: '🔧', title: 'Заявки на ремонт', desc: 'Онлайн в браузере — открыть и подать заявку, или через Telegram-бота' },
+      { icon: '🚗', title: 'История ТО автомобиля', desc: 'Работы, фото, запчасти, даты' },
       { icon: '🔔', title: 'Уведомления о готовности', desc: 'Авто готово — клиент получает сообщение' },
-      { icon: '💰', title: 'Прайс-лист услуг', desc: 'Онлайн-оценка стоимости' },
+      { icon: '💰', title: 'Прайс-лист услуг', desc: 'Онлайн-оценка стоимости — можно по фото повреждения' },
       { icon: '📊', title: 'CRM-воронка', desc: 'Заявка → В работе → Готово → Оплачено' },
-      { icon: '🤖', title: 'AI-агент', desc: 'Принимает заявки 24/7' },
+      { icon: '🤖', title: 'AI-агент', desc: 'Принимает заявки и отвечает клиентам 24/7' },
     ]
   },
   construction: {
@@ -1337,10 +1392,10 @@ const nicheData = {
     modules: [
       { icon: '🏗️', title: 'Заявки на объекты', desc: 'Клиент описывает — попадает в CRM' },
       { icon: '📋', title: 'Этапы строительства', desc: 'Фундамент → Стены → Кровля → Сдача' },
-      { icon: '💰', title: 'Сметы и документы', desc: 'Онлайн, согласование, версии' },
+      { icon: '💰', title: 'Сметы и документы', desc: 'AI составляет смету, клиент правит онлайн, прораб согласовывает' },
       { icon: '👷', title: 'Бригады и подрядчики', desc: 'Кто на каком объекте, задачи' },
       { icon: '📸', title: 'Фото-отчёты', desc: 'Клиент видит прогресс стройки' },
-      { icon: '🤖', title: 'AI-агент', desc: 'Отвечает и принимает заявки 24/7' },
+      { icon: '🤖', title: 'AI-агент', desc: 'Отвечает, принимает заявки и может выполнять все задачи 24/7' },
     ]
   },
   coaching: {
@@ -1351,17 +1406,17 @@ const nicheData = {
       { icon: '📝', title: 'Домашние задания', desc: 'Специалист даёт, клиент выполняет' },
       { icon: '🔒', title: 'Конфиденциальность', desc: 'Защищённый чат, доступ по логину' },
       { icon: '💳', title: 'Оплата сессий', desc: 'Онлайн, пакеты сессий' },
-      { icon: '🤖', title: 'Telegram-бот', desc: 'Запись и напоминания' },
+      { icon: '🤖', title: 'Telegram-бот', desc: 'Запись, напоминания — может общаться и отвечать клиенту' },
     ]
   },
   enterprise: {
     icon: '🏢', name: 'Корпорации',
     modules: [
-      { icon: '🏷️', title: 'White-label', desc: 'Под вашим брендом и доменом' },
-      { icon: '🔐', title: 'SSO / SAML', desc: 'Вход через корпоративный аккаунт' },
+      { icon: '🏷️', title: 'White-label (ваш бренд)', desc: 'Ваш логотип, домен — клиенты не знают, что внутри Univers' },
+      { icon: '🔐', title: 'SSO / SAML (единый вход)', desc: 'Один корпоративный пароль — доступ ко всем системам сразу' },
       { icon: '🏢', title: 'Мультитенантность', desc: 'Несколько отделов в одной системе' },
-      { icon: '📋', title: 'Аудит действий', desc: 'Кто, что, когда — полный лог' },
-      { icon: '📄', title: 'SLA-договор', desc: 'Гарантированный uptime и ответ' },
+      { icon: '📋', title: 'Аудит действий', desc: 'Кто, что и когда делал — полная история действий в системе' },
+      { icon: '📄', title: 'SLA-договор (гарантии)', desc: 'Юридически закреплённое время работы платформы и ответа поддержки' },
       { icon: '🔗', title: 'Интеграции', desc: '1С, Битрикс24, Slack, Jira' },
     ]
   },
@@ -1384,12 +1439,17 @@ const nicheData = {
       { icon: '📝', title: 'Домашние задания', desc: 'Преподаватель даёт, ученик сдаёт онлайн' },
       { icon: '💳', title: 'Оплата занятий', desc: 'Пакеты уроков, онлайн-оплата, история платежей' },
       { icon: '📊', title: 'Прогресс и оценки', desc: 'Динамика успеваемости, отчёты для родителей' },
-      { icon: '🤖', title: 'Telegram-бот', desc: 'Напоминания, задания и связь с преподавателем' },
+      { icon: '🤖', title: 'Telegram-бот', desc: 'Напоминания, задания, общение с учениками и связь с преподавателем' },
     ]
   }
 };
 
 // ── NICHE SELECT ───────────────────────────
+function closeNiche() {
+  document.querySelectorAll('.niche-card').forEach(c => c.classList.remove('active'));
+  document.getElementById('modulesPanel').classList.remove('show');
+}
+
 function selectNiche(el) {
   document.querySelectorAll('.niche-card').forEach(c => c.classList.remove('active'));
   el.classList.add('active');
@@ -1524,6 +1584,63 @@ window.addEventListener('scroll', () => {
 function scrollToTop() {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
+
+// ── AGENT WIDGET ──────────────────────────
+const agentReplies = [
+  'Отлично! Расскажи подробнее — какой у тебя бизнес?',
+  'Понял. У нас уже есть готовая платформа для этой ниши — показать демо?',
+  'Запускаем за 2 недели. Хочешь — свяжемся и покажем всё живьём?',
+  'Хорошо! Оставь номер телефона — позвоним и расскажем подробности.',
+  'Принял заявку! Свяжемся с тобой в ближайшее рабочее время 🚀',
+];
+let agentReplyIdx = 0;
+let agentOpen = false;
+
+function openAgentChat() {
+  if (agentOpen) return;
+  agentOpen = true;
+  const widget = document.getElementById('agentWidget');
+  const fab = document.getElementById('agentFab');
+  widget.style.display = 'block';
+  fab.style.display = 'none';
+}
+function closeAgentChat() {
+  agentOpen = false;
+  const widget = document.getElementById('agentWidget');
+  const fab = document.getElementById('agentFab');
+  widget.style.display = 'none';
+  fab.style.display = 'flex';
+}
+function sendAgentMsg() {
+  const input = document.getElementById('agentInput');
+  const messages = document.getElementById('agentMessages');
+  const text = input.value.trim();
+  if (!text) return;
+  // сообщение пользователя
+  const userMsg = document.createElement('div');
+  userMsg.style.cssText = 'background:#6366f1;color:#fff;border-radius:12px 12px 4px 12px;padding:10px 14px;font-size:14px;max-width:85%;align-self:flex-end;margin-left:auto;';
+  userMsg.textContent = text;
+  messages.appendChild(userMsg);
+  input.value = '';
+  messages.scrollTop = messages.scrollHeight;
+  // ответ агента
+  setTimeout(() => {
+    const reply = agentReplies[agentReplyIdx % agentReplies.length];
+    agentReplyIdx++;
+    const botMsg = document.createElement('div');
+    botMsg.style.cssText = 'background:#f1f5f9;border-radius:12px 12px 12px 4px;padding:10px 14px;font-size:14px;max-width:85%;color:#1e293b;';
+    botMsg.textContent = reply;
+    messages.appendChild(botMsg);
+    messages.scrollTop = messages.scrollHeight;
+  }, 900);
+}
+// показать FAB-кнопку после прокрутки
+window.addEventListener('scroll', () => {
+  const fab = document.getElementById('agentFab');
+  if (fab && !agentOpen) {
+    fab.style.display = window.scrollY > 300 ? 'flex' : 'none';
+  }
+});
 
 // ── CONTACT FORM ──────────────────────────
 function submitContact() {
