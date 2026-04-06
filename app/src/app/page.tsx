@@ -298,7 +298,7 @@ export default function Home() {
           <span style={{ color: "var(--text)" }}> Platform</span>
         </span>
         <div style={{ display: "flex", gap: "12px", alignItems: "center" }}>
-          <Link href="/login" className="btn-secondary" style={{ padding: "8px 20px", fontSize: "14px" }}>Войти</Link>
+          <Link href="/demo" className="btn-secondary" style={{ padding: "8px 20px", fontSize: "14px" }}>Войти</Link>
           <Link href="/demo" className="btn-primary" style={{ padding: "8px 20px", fontSize: "14px" }}>Запросить демо</Link>
         </div>
       </nav>
