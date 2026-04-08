@@ -833,7 +833,7 @@
       </div>
       <div class="modules-grid" id="modulesGrid"></div>
       <div class="modules-cta">
-        <a href="#" class="btn-primary" onclick="openModal()">🖥️ Хочу такую платформу →</a>
+        <a href="#" id="nicheDemoBtn" class="btn-primary" target="_blank">🖥️ Посмотреть демо →</a>
         <a href="#" class="btn-secondary" onclick="openModal()">Запросить демо</a>
       </div>
     </div>
@@ -1449,10 +1449,26 @@ function closeNiche() {
   document.getElementById('modulesPanel').classList.remove('show');
 }
 
+const nicheSlug = {
+  dentistry: 'dentistry',
+  beauty: 'beauty',
+  realestate: 'real-estate',
+  restaurant: 'restaurant',
+  school: 'school',
+  fitness: 'fitness',
+  auto: 'autoservice',
+  construction: 'construction',
+  coaching: 'coaching',
+  enterprise: 'enterprise',
+  repair: 'repair',
+  tutoring: 'tutoring',
+};
+
 function selectNiche(el) {
   document.querySelectorAll('.niche-card').forEach(c => c.classList.remove('active'));
   el.classList.add('active');
   const key = el.dataset.niche;
+  document.getElementById('nicheDemoBtn').href = '/platform/' + (nicheSlug[key] || key);
   const data = nicheData[key];
   const panel = document.getElementById('modulesPanel');
   document.getElementById('modulesIcon').textContent = data.icon;
