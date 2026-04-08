@@ -1494,7 +1494,7 @@ function closeModalOutside(e) {
 }
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
-function submitForm() {
+async function submitForm() {
   const name = document.getElementById('fieldName').value.trim();
   const contact = document.getElementById('fieldContact').value.trim();
   const niche = document.getElementById('fieldNiche').value;
@@ -1503,6 +1503,15 @@ function submitForm() {
   if (!contact) { showError('Укажи телефон или Telegram'); return; }
   if (!niche) { showError('Выбери нишу'); return; }
   err.classList.remove('show');
+
+  try {
+    await fetch('/api/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, phone: contact, niche })
+    });
+  } catch(e) { /* показываем успех даже если сеть упала */ }
+
   document.getElementById('formScreen').style.display = 'none';
   document.getElementById('successScreen').classList.add('show');
 }
