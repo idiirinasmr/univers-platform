@@ -32,17 +32,26 @@ export default function DemoPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!form.name.trim()) { setError("Введи своё имя"); return; }
     if (!form.contact.trim()) { setError("Укажи телефон или Telegram"); return; }
     if (!form.niche) { setError("Выбери нишу"); return; }
     setError("");
     setLoading(true);
-    // Имитируем отправку — потом подключим Supabase
-    await new Promise(r => setTimeout(r, 1000));
-    setLoading(false);
-    setSubmitted(true);
+    try {
+      const res = await fetch("/api/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: form.name, phone: form.contact, niche: form.niche }),
+      });
+      if (!res.ok) throw new Error("Ошибка отправки");
+      setSubmitted(true);
+    } catch {
+      setError("Не удалось отправить заявку. Попробуй ещё раз.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
