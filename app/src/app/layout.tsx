@@ -12,6 +12,7 @@ export const metadata: Metadata = {
   title: "Univers Platform — Одна платформа, любой бизнес",
   description: "Готовая бизнес-платформа под любую нишу за 2 недели. CRM, AI-агент, Telegram, личные кабинеты. Стоматология, бьюти, ресторан, онлайн-школа и другие.",
   keywords: "CRM, AI-агент, бизнес-платформа, автоматизация, Telegram-бот, онлайн-запись",
+  robots: { index: false, follow: false },
   openGraph: {
     title: "Univers Platform — Одна платформа, любой бизнес",
     description: "Готовая платформа под любую нишу за 2 недели. CRM, AI-агент, Telegram.",
