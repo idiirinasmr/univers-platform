@@ -960,7 +960,7 @@
     <button onclick="closeAgentChat()" style="background:rgba(255,255,255,0.2);border:none;color:#fff;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;">×</button>
   </div>
   <div id="agentMessages" style="padding:16px;height:240px;overflow-y:auto;display:flex;flex-direction:column;gap:10px;">
-    <div style="background:#f1f5f9;border-radius:12px 12px 12px 4px;padding:10px 14px;font-size:14px;max-width:85%;color:#1e293b;">Привет! Я AI-агент платформы Univers. Расскажи о своём бизнесе — подберём нишу и покажем демо 🚀</div>
+    <div style="background:#f1f5f9;border-radius:12px 12px 12px 4px;padding:10px 14px;font-size:14px;max-width:85%;color:#1e293b;">Здравствуйте! Я AI-агент платформы Univers. Расскажите о своём бизнесе — подберём нишу и покажем демо 🚀</div>
   </div>
   <div style="padding:12px 16px;border-top:1px solid #e2e8f0;display:flex;gap:8px;">
     <input id="agentInput" type="text" placeholder="Напиши сообщение..." onkeydown="if(event.key==='Enter')sendAgentMsg()" style="flex:1;border:1px solid #e2e8f0;border-radius:10px;padding:9px 13px;font-size:14px;outline:none;font-family:inherit;">
@@ -1612,11 +1612,11 @@ function scrollToTop() {
 
 // ── AGENT WIDGET ──────────────────────────
 const agentReplies = [
-  'Отлично! Расскажи подробнее — какой у тебя бизнес?',
+  'Отлично! Расскажите подробнее — какой у вас бизнес?',
   'Понял. У нас уже есть готовая платформа для этой ниши — показать демо?',
-  'Запускаем за 2 недели. Хочешь — свяжемся и покажем всё живьём?',
-  'Хорошо! Оставь номер телефона — позвоним и расскажем подробности.',
-  'Принял заявку! Свяжемся с тобой в ближайшее рабочее время 🚀',
+  'Запускаем за 2 недели. Хотите — свяжемся и покажем всё живьём?',
+  'Хорошо! Оставьте номер телефона — позвоним и расскажем подробности.',
+  'Принял заявку! Свяжемся с вами в ближайшее рабочее время 🚀',
 ];
 let agentReplyIdx = 0;
 let agentOpen = false;
