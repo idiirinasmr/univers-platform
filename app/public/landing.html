@@ -745,7 +745,7 @@
       <a href="#how" class="btn-secondary" style="font-size:16px;padding:14px 28px;">Как это работает →</a>
     </div>
     <div class="hero-stats">
-      <div><div class="hero-stat-num" data-count="10" data-suffix="+">0+</div><div class="hero-stat-label">ниш адаптировано</div></div>
+      <div><div class="hero-stat-num" style="font-size:18px;line-height:1.2;">несколько<br>инструментов</div><div class="hero-stat-label">в одном месте</div></div>
       <div><div class="hero-stat-num">2 нед</div><div class="hero-stat-label">до запуска платформы</div></div>
       <div><div class="hero-stat-num">24/7</div><div class="hero-stat-label">работает AI-агент</div></div>
       <div><div class="hero-stat-num">12</div><div class="hero-stat-label">готовых ниш</div></div>
@@ -1618,6 +1618,10 @@ const agentReplies = [
   'Хорошо! Оставьте номер телефона — позвоним и расскажем подробности.',
   'Принял заявку! Свяжемся с вами в ближайшее рабочее время 🚀',
 ];
+const agentKeywordReplies = [
+  { keywords: ['политика', 'конфиденциальност', 'персональн', 'данные', 'gdpr', 'пдн'],
+    reply: 'Политика конфиденциальности разрабатывается под ваши задачи.' },
+];
 let agentReplyIdx = 0;
 let agentOpen = false;
 
@@ -1650,8 +1654,9 @@ function sendAgentMsg() {
   messages.scrollTop = messages.scrollHeight;
   // ответ агента
   setTimeout(() => {
-    const reply = agentReplies[agentReplyIdx % agentReplies.length];
-    agentReplyIdx++;
+    const lc = text.toLowerCase();
+    const keyword = agentKeywordReplies.find(r => r.keywords.some(k => lc.includes(k)));
+    const reply = keyword ? keyword.reply : agentReplies[agentReplyIdx++ % agentReplies.length];
     const botMsg = document.createElement('div');
     botMsg.style.cssText = 'background:#f1f5f9;border-radius:12px 12px 12px 4px;padding:10px 14px;font-size:14px;max-width:85%;color:#1e293b;';
     botMsg.textContent = reply;
