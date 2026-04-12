@@ -380,10 +380,21 @@ h2 {
 
 /* ── MOBILE ── */
 @media (max-width: 640px) {
-  .slide { padding: 28px 18px 76px; }
+  body { height: auto; overflow: auto; }
+  .slides { height: auto; overflow: visible; }
+  .slide {
+    position: relative;
+    display: flex !important;
+    height: auto;
+    min-height: 100vh;
+    overflow: visible;
+    padding: 28px 18px 60px;
+  }
   .cards-3, .cards-2 { grid-template-columns: 1fr; }
   .facts { gap: 8px; }
   .fact { min-width: 110px; }
+  .nav { display: none; }
+  .slide-num { display: none; }
 }
 </style>
 </head>
