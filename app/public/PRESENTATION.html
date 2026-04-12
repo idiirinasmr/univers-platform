@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Univers Platform — Презентация</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --gold:      #d97706;
+  --gold-lt:   #fbbf24;
+  --gold-dk:   #92400e;
+  --cream:     #fffbeb;
+  --cream2:    #fef3c7;
+  --text:      #1c1400;
+  --text2:     #78350f;
+  --white:     #ffffff;
+  --purple:    #7c3aed;
+  --shadow:    0 8px 32px rgba(180,100,0,0.18);
+}
+
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: var(--cream);
+  color: var(--text);
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ── SLIDE WRAPPER ── */
+.slides { width: 100%; height: 100vh; position: relative; overflow: hidden; }
+
+.slide {
+  position: absolute;
+  inset: 0;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 48px 64px 76px;
+  text-align: center;
+  overflow: hidden;
+}
+.slide.active { display: flex; }
+
+/* ── BACKGROUNDS ── */
+.slide-1 { background: linear-gradient(145deg, #fff8dc 0%, #fde68a 45%, #fbbf24 100%); }
+.slide-2 { background: linear-gradient(145deg, #fef9f0 0%, #fde68a 60%, #fcd34d 100%); }
+.slide-3 { background: linear-gradient(145deg, #fffbeb 0%, #fef3c7 50%, #fde68a 100%); }
+.slide-4 { background: linear-gradient(145deg, #fff8dc 0%, #fef3c7 50%, #fde68a 100%); }
+.slide-5 { background: linear-gradient(145deg, #fef9f0 0%, #fde68a 55%, #fbbf24 100%); }
+.slide-6 { background: linear-gradient(145deg, #fffbeb 0%, #fef3c7 50%, #fde68a 100%); }
+.slide-7 { background: linear-gradient(145deg, #fff8dc 0%, #fde68a 45%, #fbbf24 100%); }
+
+/* ── ORBS (вау-фон) ── */
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.35;
+  animation: float 8s ease-in-out infinite;
+  pointer-events: none;
+}
+.orb1 { width: 340px; height: 340px; background: #f59e0b; top: -80px; left: -80px; animation-delay: 0s; }
+.orb2 { width: 260px; height: 260px; background: #d97706; bottom: -60px; right: -60px; animation-delay: 3s; }
+.orb3 { width: 180px; height: 180px; background: #fbbf24; top: 40%; left: 70%; animation-delay: 5s; }
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50%       { transform: translateY(-24px) scale(1.05); }
+}
+
+/* ── SHIMMER HEADING ── */
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+.shine {
+  background: linear-gradient(90deg, #92400e 0%, #d97706 30%, #fbbf24 50%, #d97706 70%, #92400e 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 4s linear infinite;
+}
+
+/* ── SLIDE-IN ── */
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.slide.active > * { animation: slideUp 0.55s ease both; }
+.slide.active > *:nth-child(2) { animation-delay: 0.1s; }
+.slide.active > *:nth-child(3) { animation-delay: 0.2s; }
+.slide.active > *:nth-child(4) { animation-delay: 0.3s; }
+.slide.active > *:nth-child(5) { animation-delay: 0.4s; }
+
+/* ── TYPOGRAPHY ── */
+h1 {
+  font-size: clamp(30px, 4.5vw, 60px);
+  font-weight: 900;
+  line-height: 1.12;
+  letter-spacing: -1.5px;
+  color: var(--text);
+  margin-bottom: 14px;
+  position: relative; z-index: 1;
+}
+h2 {
+  font-size: clamp(22px, 3.2vw, 44px);
+  font-weight: 800;
+  line-height: 1.2;
+  color: var(--text);
+  margin-bottom: 18px;
+  position: relative; z-index: 1;
+}
+.sub {
+  font-size: clamp(14px, 1.6vw, 18px);
+  color: var(--text2);
+  line-height: 1.65;
+  max-width: 660px;
+  position: relative; z-index: 1;
+}
+.logo-label {
+  font-size: clamp(11px, 1.2vw, 14px);
+  font-weight: 800;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold-dk);
+  margin-bottom: 16px;
+  position: relative; z-index: 1;
+}
+
+/* ── AUTHOR ── */
+.author {
+  margin-top: 28px;
+  position: relative; z-index: 1;
+}
+.author-role {
+  font-size: 14px;
+  color: var(--text2);
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+.author-name {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text);
+}
+
+/* ── FACT BOXES ── */
+.facts {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 24px;
+  position: relative; z-index: 1;
+}
+.fact {
+  background: rgba(255,255,255,0.75);
+  border: 1.5px solid rgba(217,119,6,0.25);
+  border-radius: 18px;
+  padding: 14px 20px;
+  min-width: 130px;
+  box-shadow: 0 4px 16px rgba(180,100,0,0.1);
+  backdrop-filter: blur(8px);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.fact:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(180,100,0,0.18); }
+.fact strong { display: block; font-size: 17px; font-weight: 900; color: var(--text); margin-bottom: 3px; }
+.fact span { font-size: 12px; color: var(--text2); line-height: 1.4; display: block; }
+
+/* ── GOLD SHIMMER FACTS ── */
+@keyframes goldShimmer {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.fact-gold {
+  background: linear-gradient(135deg, #fffbeb, #fde68a, #fff8dc, #fbbf24, #fff8dc, #fde68a);
+  background-size: 300% 300%;
+  animation: goldShimmer 5s ease infinite;
+  border: 1.5px solid #f59e0b;
+  box-shadow: 0 3px 14px rgba(217,119,6,0.22);
+}
+.fact-gold span { font-size: 12px; font-weight: 700; color: var(--gold-dk); line-height: 1.5; display: block; }
+
+/* ── CARDS ── */
+.cards {
+  display: grid;
+  gap: 14px;
+  margin-top: 18px;
+  position: relative; z-index: 1;
+  width: 100%;
+  max-width: 900px;
+}
+.cards-3 { grid-template-columns: repeat(3, 1fr); }
+.cards-2 { grid-template-columns: repeat(2, 1fr); }
+
+.card {
+  background: rgba(255,255,255,0.72);
+  border: 1.5px solid rgba(217,119,6,0.2);
+  border-radius: 20px;
+  padding: 22px 18px;
+  text-align: left;
+  box-shadow: 0 4px 18px rgba(180,100,0,0.08);
+  backdrop-filter: blur(10px);
+  transition: transform 0.22s, box-shadow 0.22s, border-color 0.22s;
+  position: relative; overflow: hidden;
+}
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--gold-lt), var(--gold));
+  opacity: 0;
+  transition: opacity 0.22s;
+}
+.card:hover { transform: translateY(-5px); box-shadow: 0 12px 32px rgba(180,100,0,0.16); border-color: var(--gold-lt); }
+.card:hover::before { opacity: 1; }
+
+.card-icon { font-size: 28px; margin-bottom: 10px; }
+.card-title { font-size: 15px; font-weight: 800; color: var(--text); margin-bottom: 6px; }
+.card-desc { font-size: 13px; color: var(--text2); line-height: 1.55; }
+
+/* ── PAIN LIST ── */
+.pain-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 720px;
+  text-align: left;
+  margin-top: 12px;
+  position: relative; z-index: 1;
+}
+.pain-list li {
+  background: rgba(255,255,255,0.7);
+  border-left: 4px solid var(--gold);
+  border-radius: 0 16px 16px 0;
+  padding: 14px 20px;
+  font-size: clamp(13px, 1.5vw, 16px);
+  color: var(--text2);
+  line-height: 1.55;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 2px 10px rgba(180,100,0,0.07);
+}
+.pain-list li b { color: var(--gold-dk); }
+
+/* ── NICHE CHIPS ── */
+.niches {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 820px;
+  margin-top: 16px;
+  position: relative; z-index: 1;
+}
+.chip {
+  background: rgba(255,255,255,0.7);
+  border: 1.5px solid rgba(217,119,6,0.3);
+  border-radius: 100px;
+  padding: 7px 16px;
+  font-size: 13px;
+  color: var(--gold-dk);
+  font-weight: 600;
+  backdrop-filter: blur(6px);
+  transition: background 0.2s, transform 0.2s;
+}
+.chip:hover { background: var(--gold-lt); transform: scale(1.05); }
+
+/* ── STEP NUMBERS ── */
+.step-num {
+  width: 38px; height: 38px;
+  background: linear-gradient(135deg, var(--gold), var(--gold-dk));
+  color: #fff;
+  border-radius: 12px;
+  font-size: 17px;
+  font-weight: 900;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 12px;
+  box-shadow: 0 4px 12px rgba(180,100,0,0.3);
+}
+
+/* ── CTA ── */
+.cta-btn {
+  display: inline-block;
+  margin-top: 24px;
+  padding: 16px 48px;
+  background: linear-gradient(135deg, var(--gold-dk), var(--gold));
+  border-radius: 16px;
+  font-size: 17px;
+  font-weight: 800;
+  color: #fff;
+  text-decoration: none;
+  box-shadow: 0 6px 24px rgba(180,100,0,0.35);
+  position: relative; z-index: 1;
+  animation: pulse 2.5s ease-in-out infinite;
+  transition: transform 0.2s;
+}
+.cta-btn:hover { transform: translateY(-3px); }
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 6px 24px rgba(180,100,0,0.35); }
+  50%       { box-shadow: 0 10px 36px rgba(180,100,0,0.55); }
+}
+.url-tag {
+  margin-top: 16px;
+  background: rgba(255,255,255,0.75);
+  border: 1.5px solid rgba(217,119,6,0.3);
+  border-radius: 12px;
+  padding: 11px 28px;
+  font-size: 16px;
+  color: var(--gold-dk);
+  font-family: monospace;
+  display: inline-block;
+  position: relative; z-index: 1;
+  backdrop-filter: blur(8px);
+}
+.contact-row {
+  margin-top: 16px;
+  font-size: 14px;
+  color: var(--text2);
+  position: relative; z-index: 1;
+}
+
+/* ── DIVIDER ── */
+.divider {
+  width: 60px; height: 3px;
+  background: linear-gradient(90deg, var(--gold-lt), var(--gold));
+  border-radius: 4px;
+  margin: 16px auto;
+  position: relative; z-index: 1;
+}
+
+/* ── NAV ── */
+.nav {
+  position: fixed;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  background: rgba(255,255,255,0.85);
+  border: 1.5px solid rgba(217,119,6,0.25);
+  border-radius: 100px;
+  padding: 7px 18px;
+  z-index: 200;
+  box-shadow: 0 4px 20px rgba(180,100,0,0.12);
+  backdrop-filter: blur(12px);
+}
+.nav button {
+  background: linear-gradient(135deg, var(--gold), var(--gold-dk));
+  border: none;
+  color: #fff;
+  font-size: 15px;
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+  box-shadow: 0 3px 10px rgba(180,100,0,0.25);
+}
+.nav button:hover { transform: scale(1.1); box-shadow: 0 5px 16px rgba(180,100,0,0.4); }
+.nav .counter { font-size: 13px; color: var(--text2); min-width: 40px; text-align: center; font-weight: 700; }
+
+.slide-num {
+  position: fixed;
+  top: 18px; right: 26px;
+  font-size: 12px;
+  color: rgba(146,64,14,0.35);
+  letter-spacing: 1px;
+  font-weight: 700;
+  z-index: 200;
+}
+
+/* ── MOBILE ── */
+@media (max-width: 640px) {
+  .slide { padding: 28px 18px 76px; }
+  .cards-3, .cards-2 { grid-template-columns: 1fr; }
+  .facts { gap: 8px; }
+  .fact { min-width: 110px; }
+}
+</style>
+</head>
+<body>
+
+<div class="slides">
+
+<!-- ═══ СЛАЙД 1 — ТИТУЛЬНЫЙ ═══ -->
+<div class="slide slide-1 active">
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="logo-label">✦ Univers Platform ✦</div>
+  <h1 class="shine">Готовая платформа<br>под ваш бизнес</h1>
+  <div class="divider"></div>
+  <h2 style="font-size:clamp(18px,2.4vw,30px); color:var(--text2); font-weight:700; letter-spacing:-0.5px;">
+    Все в одном месте и одна система —<br>вместо нескольких инструментов
+  </h2>
+  <div class="author">
+    <div class="author-role">Основатель · Univers Platform</div>
+    <div class="author-name">Ирина Шаркова</div>
+  </div>
+</div>
+
+<!-- ═══ СЛАЙД 2 — БОЛЬ ═══ -->
+<div class="slide slide-2">
+  <div class="orb orb1"></div>
+  <div class="orb orb3"></div>
+  <h2><span class="shine">Что теряет ваш бизнес каждый день</span></h2>
+  <ul class="pain-list">
+    <li><b>Клиенты записываются в мессенджерах</b> — заявки теряются, забываются, и клиент уходит к конкуренту</li>
+    <li><b>3–5 разных программ:</b> одно для записи, другое для оплаты, третье для задач — каждое стоит денег и времени</li>
+    <li><b>Некому отвечать вечером и в выходные</b> — клиент написал, не дождался и нашёл другого</li>
+    <li><b>Для корпораций:</b> процессы в разных системах, нет единого центра управления — теряется контроль и скорость</li>
+  </ul>
+</div>
+
+<!-- ═══ СЛАЙД 3 — РЕШЕНИЕ ═══ -->
+<div class="slide slide-3">
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+  <p class="logo-label" style="font-size:clamp(13px,1.5vw,17px); letter-spacing:2px; margin-bottom:10px;">Есть решение</p>
+  <h2><span class="shine">Univers Platform</span> — всё готово,<br>просто начните работать</h2>
+  <div class="cards cards-3" style="max-width:860px;">
+    <div class="card">
+      <div class="step-num">1</div>
+      <div class="card-title">Выбираете нишу</div>
+      <div class="card-desc">Стоматология, бьюти, фитнес, ремонт, недвижимость, корпорации — 12 ниш, каждая настроена под специфику вашего бизнеса</div>
+    </div>
+    <div class="card">
+      <div class="step-num">2</div>
+      <div class="card-title">Получаете платформу</div>
+      <div class="card-desc">Запись клиентов, CRM, расписание, задачи, AI-агент — всё уже внутри. Ничего не нужно собирать и настраивать</div>
+    </div>
+    <div class="card">
+      <div class="step-num">3</div>
+      <div class="card-title">Работаете с первого дня</div>
+      <div class="card-desc">Клиенты записываются сами, заявки приходят в Telegram и в ваш браузер, AI отвечает 24/7 — пока вы занимаетесь своим делом</div>
+    </div>
+  </div>
+  <div class="niches">
+    <span class="chip">🪥 Стоматология</span>
+    <span class="chip">💅 Бьюти</span>
+    <span class="chip">🏠 Недвижимость</span>
+    <span class="chip">🍕 Ресторан</span>
+    <span class="chip">📚 Онлайн-школа</span>
+    <span class="chip">🏋️ Фитнес</span>
+    <span class="chip">🚗 Автосервис</span>
+    <span class="chip">🏗️ Строительство</span>
+    <span class="chip">👷 Ремонт</span>
+    <span class="chip">👩‍🏫 Репетиторство</span>
+    <span class="chip">🧠 Коучи и психологи</span>
+    <span class="chip">🏢 Корпорации</span>
+  </div>
+</div>
+
+<!-- ═══ СЛАЙД 4 — ЧТО ВНУТРИ ═══ -->
+<div class="slide slide-4">
+  <div class="orb orb1"></div>
+  <div class="orb orb3"></div>
+  <h2>Что входит <span class="shine">в каждую платформу</span></h2>
+  <div class="cards cards-3" style="max-width:880px;">
+    <div class="card">
+      <div class="card-icon">📅</div>
+      <div class="card-title">Онлайн-запись</div>
+      <div class="card-desc">Клиент сам выбирает время. Расписание всегда перед глазами — никакой путаницы</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">👥</div>
+      <div class="card-title">База клиентов</div>
+      <div class="card-desc">История визитов, заметки, контакты — вся информация о каждом клиенте в одном месте</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🤖</div>
+      <div class="card-title">AI-агент 24/7</div>
+      <div class="card-desc">Отвечает на вопросы, записывает и консультирует — даже ночью и в выходные</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🔐</div>
+      <div class="card-title">Личный кабинет клиента и сотрудников</div>
+      <div class="card-desc">У каждого свой доступ, каждый видит свою информацию. А руководитель видит общую картину — возможность контролировать, изменять, создавать информацию</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">📋</div>
+      <div class="card-title">Задачи и канбан</div>
+      <div class="card-desc">Новый → В работе → Готово. Вся команда видит статус каждого клиента. Новая заявка — мгновенное сообщение вам. Ничего не потеряется</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">💳</div>
+      <div class="card-title">Учёт оплат</div>
+      <div class="card-desc">Кто оплатил, кто нет, история платежей. Без Excel, тетрадок и путаницы</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ СЛАЙД 5 — ДЛЯ КАЖДОЙ НИШИ ═══ -->
+<div class="slide slide-5">
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+  <h2>Говорит на <span class="shine">языке вашего бизнеса</span> и решает задачи</h2>
+  <div class="cards cards-2" style="max-width:820px;">
+    <div class="card">
+      <div class="card-icon">🪥💅🏋️👷</div>
+      <div class="card-title">Малый и средний бизнес</div>
+      <div class="card-desc">Стоматология, бьюти, фитнес, ремонт, репетиторство, автосервис, рестораны — платформа уже знает вашу специфику. Запись, напоминания, CRM — всё настроено. Запускаетесь за 5 минут, экономите часы каждый день</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🏢🏗️🏠📚</div>
+      <div class="card-title">Средний бизнес и корпорации</div>
+      <div class="card-desc">Строительство, недвижимость, онлайн-школы, корпорации — единый центр управления вместо разрозненных систем. Командная работа, контроль задач, аналитика. Масштабируется под размер вашей компании</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🧠🤖</div>
+      <div class="card-title">AI-агент под вашу нишу</div>
+      <div class="card-desc">Каждый бизнес настраивает своего агента. Стоматология — записывает на приём. Онлайн-школа — консультирует по курсам. Корпорация — обрабатывает заявки. Работает без выходных и многое другое</div>
+    </div>
+    <div class="card">
+      <div class="card-icon">⚡🛡️</div>
+      <div class="card-title">Быстро и безопасно</div>
+      <div class="card-desc">Не нужно ждать разработчиков месяцами. Платформа готова — работаете в день подключения. Данные каждого бизнеса изолированы — ваши клиенты только ваши</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ СЛАЙД 6 — ПОЧЕМУ МЫ ═══ -->
+<div class="slide slide-6" style="padding-bottom: 100px;">
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <h2>Почему выбирают <span class="shine">Univers Platform</span></h2>
+  <div class="cards cards-2" style="max-width:760px; margin-top:12px;">
+    <div class="card" style="padding:14px 16px;">
+      <div class="card-title">⚡ Старт без ожидания</div>
+      <div class="card-desc">Обычно разработка под заказ — от 300 000 ₽ и 2–3 месяца ожидания. Univers Platform — готова сейчас. Вы начинаете работать в день подключения</div>
+    </div>
+    <div class="card" style="padding:14px 16px;">
+      <div class="card-title">🎯 Разработано под вашу нишу</div>
+      <div class="card-desc">Не нужно долго настраивать. Всё уже адаптировано — модули, логика, интерфейс под специфику именно вашего бизнеса</div>
+    </div>
+    <div class="card" style="padding:14px 16px;">
+      <div class="card-title">📱 Везде и всегда</div>
+      <div class="card-desc">Открывается в любом браузере на компьютере и телефоне. Вы и ваша команда работаете откуда угодно — ничего устанавливать не нужно</div>
+    </div>
+    <div class="card" style="padding:14px 16px;">
+      <div class="card-title">🔒 Ваши данные только ваши</div>
+      <div class="card-desc">Каждый бизнес работает в своём закрытом пространстве. База клиентов, история, финансы — недоступны никому снаружи</div>
+    </div>
+  </div>
+  <div class="facts" style="margin-top:14px; gap:8px;">
+    <div class="fact fact-gold" style="max-width:195px; text-align:left;"><span>⏱ 5 минут запуск платформы, нужен только интернет</span></div>
+    <div class="fact fact-gold" style="max-width:195px; text-align:left;"><span>🤖 AI-агент настраивается под ваши задачи, работает 24/7 и присылает отчёт</span></div>
+    <div class="fact fact-gold" style="max-width:195px; text-align:left;"><span>🔧 Внутри платформы можно создавать несколько инструментов, заменяя другие отдельные программы</span></div>
+    <div class="fact fact-gold" style="max-width:195px; text-align:left;"><span>🏢 12 готовых ниш, если не нашли свою — создадим под ваш бизнес и разработаем под ваши задачи</span></div>
+  </div>
+</div>
+
+<!-- ═══ СЛАЙД 7 — CTA (контент без изменений) ═══ -->
+<div class="slide slide-7">
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <h2>Посмотрите как это работает —<br><span class="shine">прямо сейчас</span></h2>
+  <p class="sub">Откройте платформу, выберите свою нишу и нажмите "Посмотреть демо". Это живой продукт — можно пройти по кнопке и изучать.</p>
+  <a class="cta-btn" href="https://univers-platform.vercel.app" target="_blank">Открыть платформу →</a>
+  <div class="contact-row">Вопросы и запрос доступа: Telegram @UniversPlatformBot</div>
+  <div class="contact-row" style="margin-top:6px;">или телефон: +7 (937) 658 10 31</div>
+</div>
+
+</div><!-- /slides -->
+
+<!-- NAV -->
+<div class="nav">
+  <button onclick="prev()">←</button>
+  <span class="counter" id="counter">1 / 7</span>
+  <button onclick="next()">→</button>
+</div>
+<div class="slide-num" id="slideNum">01</div>
+
+<script>
+  let cur = 0;
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+
+  function show(n) {
+    slides[cur].classList.remove('active');
+    cur = (n + total) % total;
+    slides[cur].classList.add('active');
+    document.getElementById('counter').textContent = (cur+1) + ' / ' + total;
+    document.getElementById('slideNum').textContent = String(cur+1).padStart(2,'0');
+  }
+  function next() { show(cur+1); }
+  function prev() { show(cur-1); }
+
+  document.addEventListener('keydown', e => {
+    if (['ArrowRight','ArrowDown',' '].includes(e.key)) { e.preventDefault(); next(); }
+    if (['ArrowLeft','ArrowUp'].includes(e.key)) { e.preventDefault(); prev(); }
+  });
+
+  let tx = 0;
+  document.addEventListener('touchstart', e => tx = e.touches[0].clientX, {passive:true});
+  document.addEventListener('touchend', e => {
+    const d = tx - e.changedTouches[0].clientX;
+    if (Math.abs(d) > 50) d > 0 ? next() : prev();
+  }, {passive:true});
+</script>
+
+</body>
+</html>
