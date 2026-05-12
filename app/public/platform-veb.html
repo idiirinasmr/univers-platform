@@ -1,0 +1,1447 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Платформа Веб — вебинары для тех, кто хочет меняться</title>
+  <meta name="description" content="Живые вебинары и архив записей. Запишитесь на следующий эфир или смотрите записи прошлых встреч." />
+  <meta property="og:title" content="Платформа Веб" />
+  <meta property="og:description" content="Живые вебинары и работающие техники" />
+  <meta property="og:type" content="website" />
+<style>
+/* ===================== RESET ===================== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #0d0d1a;
+  color: #e5e7eb;
+  font-size: 16px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* ===================== TOKENS ===================== */
+:root {
+  --bg:        #0d0d1a;
+  --bg2:       #1a1a2e;
+  --bg3:       #12122a;
+  --text:      #e5e7eb;
+  --muted:     #9ca3af;
+  --gold:      #fbbf24;
+  --gold-dark: #d4a017;
+  --gold-glow: rgba(251,191,36,0.3);
+  --radius:    16px;
+  --gap:       16px;
+  --header-h:  68px;
+}
+
+/* ===================== ANIMATIONS ===================== */
+@keyframes shimmer {
+  0%   { background-position: 200% center; }
+  100% { background-position: -200% center; }
+}
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.25; }
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-10px); }
+}
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 20px var(--gold-glow); }
+  50%       { box-shadow: 0 0 40px rgba(251,191,36,0.5), 0 0 80px rgba(251,191,36,0.2); }
+}
+@keyframes slideDown {
+  from { opacity: 0; max-height: 0; }
+  to   { opacity: 1; max-height: 500px; }
+}
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.92); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* ===================== TYPOGRAPHY ===================== */
+.shimmer {
+  background: linear-gradient(90deg, #fbbf24 0%, #f59e0b 30%, #fde68a 50%, #f59e0b 70%, #fbbf24 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 5s linear infinite;
+}
+h1 { font-size: clamp(2rem, 5vw, 3.25rem); font-weight: 800; line-height: 1.15; letter-spacing: -0.02em; }
+h2 { font-size: clamp(1.6rem, 3.5vw, 2.25rem); font-weight: 700; line-height: 1.2; }
+h3 { font-size: 1.15rem; font-weight: 600; }
+
+/* ===================== LAYOUT ===================== */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+.section    { padding: 72px 0; }
+
+/* ===================== HEADER ===================== */
+.header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: var(--header-h);
+  background: rgba(13,13,26,0.85);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(251,191,36,0.1);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+}
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+.logo {
+  font-size: 1.25rem;
+  font-weight: 800;
+  text-decoration: none;
+  color: var(--text);
+  letter-spacing: -0.02em;
+  cursor: pointer;
+}
+.logo span { color: var(--gold); }
+
+.nav { display: flex; align-items: center; gap: 8px; }
+.nav-btn {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 0.95rem;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: color 180ms, background 180ms;
+  font-family: inherit;
+}
+.nav-btn:hover, .nav-btn.active { color: var(--text); background: rgba(255,255,255,0.06); }
+
+.btn-gold {
+  background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+  color: #0d0d1a;
+  font-weight: 700;
+  font-size: 0.9rem;
+  padding: 10px 22px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  min-height: 44px;
+  font-family: inherit;
+  transition: all 220ms cubic-bezier(0.34,1.56,0.64,1);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.btn-gold:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px var(--gold-glow);
+}
+.btn-gold:active { transform: scale(0.97); }
+
+/* ===================== PAGE SWITCH ===================== */
+.page { display: none; padding-top: var(--header-h); }
+.page.active { display: block; animation: fadeUp 0.35s ease both; }
+
+/* ===================== HERO ===================== */
+.hero {
+  min-height: calc(100vh - var(--header-h));
+  display: flex;
+  align-items: center;
+  padding: 60px 0 80px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 70% 40%, rgba(251,191,36,0.07) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 60% at 10% 80%, rgba(99,102,241,0.06) 0%, transparent 60%);
+  pointer-events: none;
+}
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 48px;
+  align-items: center;
+}
+.hero-content { max-width: 620px; }
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(251,191,36,0.1);
+  border: 1px solid rgba(251,191,36,0.25);
+  color: var(--gold);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 100px;
+  letter-spacing: 0.03em;
+  margin-bottom: 24px;
+}
+.badge-dot {
+  width: 7px; height: 7px;
+  background: var(--gold);
+  border-radius: 50%;
+  animation: pulse-dot 1.6s ease infinite;
+}
+
+.hero h1 { margin-bottom: 20px; }
+.hero p {
+  color: var(--muted);
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+  max-width: 520px;
+}
+.hero-date {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text);
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 32px;
+}
+.hero-date-icon { font-size: 1.1rem; }
+
+/* Countdown */
+.timer-wrap {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 36px;
+  flex-wrap: wrap;
+}
+.timer-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--bg2);
+  border: 1px solid rgba(251,191,36,0.15);
+  border-radius: 14px;
+  padding: 14px 18px;
+  min-width: 72px;
+}
+.timer-num {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--gold);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.timer-label {
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+  margin-top: 4px;
+}
+
+.hero-btn-wrap { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
+.btn-hero {
+  background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+  color: #0d0d1a;
+  font-weight: 700;
+  font-size: 1.05rem;
+  padding: 18px 32px;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  min-height: 56px;
+  font-family: inherit;
+  transition: all 250ms cubic-bezier(0.34,1.56,0.64,1);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  animation: glow-pulse 3s ease infinite;
+}
+.btn-hero:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 40px var(--gold-glow);
+}
+.btn-hint {
+  color: var(--muted);
+  font-size: 0.82rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Speaker avatar */
+.speaker-avatar {
+  width: 220px;
+  height: 220px;
+  border-radius: 20px;
+  border: 2px solid rgba(251,191,36,0.4);
+  background: var(--bg2);
+  overflow: hidden;
+  flex-shrink: 0;
+  box-shadow: 0 0 60px rgba(251,191,36,0.1);
+  animation: float 6s ease-in-out infinite;
+}
+.speaker-icon {
+  width: 72px; height: 72px;
+  background: rgba(251,191,36,0.12);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.2rem;
+}
+.speaker-avatar p {
+  font-size: 0.75rem;
+  color: var(--muted);
+  text-align: center;
+  margin: 0;
+  padding: 0 16px;
+}
+
+/* ===================== CONFIRM ===================== */
+.confirm-block {
+  display: none;
+  text-align: center;
+  padding: 40px 32px;
+  background: rgba(251,191,36,0.06);
+  border: 1px solid rgba(251,191,36,0.2);
+  border-radius: 20px;
+  animation: scaleIn 0.35s ease both;
+}
+.confirm-block.visible { display: block; }
+.confirm-icon { font-size: 3rem; margin-bottom: 16px; }
+.confirm-block h3 { font-size: 1.5rem; color: var(--gold); margin-bottom: 10px; }
+.confirm-block p { color: var(--muted); margin-bottom: 4px; }
+
+/* ===================== CARDS ROW (benefits) ===================== */
+.cards-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--gap);
+}
+.card {
+  background: rgba(255,251,235,0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(251,191,36,0.13);
+  border-radius: var(--radius);
+  padding: 28px 24px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 220ms ease, box-shadow 220ms ease;
+}
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+  opacity: 0;
+  transition: opacity 300ms;
+}
+.card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,0.4); }
+.card:hover::before { opacity: 1; }
+.card-emoji { font-size: 2rem; margin-bottom: 14px; display: block; }
+.card h3 { margin-bottom: 8px; font-size: 1.05rem; }
+.card p { color: var(--muted); font-size: 0.9rem; line-height: 1.55; }
+
+/* ===================== FOR WHOM ===================== */
+.for-whom-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.for-whom-col {
+  background: rgba(255,251,235,0.04);
+  border: 1px solid rgba(251,191,36,0.1);
+  border-radius: var(--radius);
+  padding: 28px 24px;
+}
+.for-whom-col.yes { border-color: rgba(251,191,36,0.2); }
+.for-whom-col.no  { border-color: rgba(239,68,68,0.15); }
+.for-whom-col h3 { margin-bottom: 18px; font-size: 1rem; }
+.for-whom-col ul { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+.for-whom-col ul li {
+  display: flex;
+  gap: 10px;
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+.for-whom-col ul li .check { flex-shrink: 0; font-size: 1rem; margin-top: 1px; }
+
+/* ===================== SPEAKER ===================== */
+.speaker-block {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 40px;
+  align-items: center;
+  background: rgba(255,251,235,0.04);
+  border: 1px solid rgba(251,191,36,0.12);
+  border-radius: 20px;
+  padding: 40px;
+}
+.speaker-photo {
+  width: 130px; height: 130px;
+  border-radius: 16px;
+  background: var(--bg2);
+  border: 2px solid rgba(251,191,36,0.35);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.speaker-name { font-size: 1.4rem; font-weight: 700; margin-bottom: 4px; }
+.speaker-role { color: var(--gold); font-size: 0.9rem; margin-bottom: 16px; }
+.speaker-facts { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+.speaker-facts span { color: var(--muted); font-size: 0.88rem; display: flex; align-items: center; gap: 6px; }
+.speaker-facts span::before { content: '★'; color: var(--gold); }
+.speaker-bio { color: var(--muted); font-size: 0.92rem; line-height: 1.6; font-style: italic; }
+
+/* ===================== CTA BLOCK ===================== */
+.cta-block {
+  text-align: center;
+  background: rgba(251,191,36,0.05);
+  border: 1px solid rgba(251,191,36,0.15);
+  border-radius: 24px;
+  padding: 56px 40px;
+}
+.cta-block h2 { margin-bottom: 8px; }
+.cta-subtitle { color: var(--muted); font-size: 0.95rem; margin-bottom: 32px; }
+.btn-cta {
+  background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+  color: #0d0d1a;
+  font-weight: 700;
+  font-size: 1.1rem;
+  padding: 18px 48px;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  min-height: 56px;
+  font-family: inherit;
+  transition: all 250ms cubic-bezier(0.34,1.56,0.64,1);
+  width: 100%;
+  max-width: 420px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.btn-cta:hover { transform: translateY(-3px); box-shadow: 0 14px 36px var(--gold-glow); }
+
+/* ===================== FAQ ===================== */
+.faq-list { display: flex; flex-direction: column; gap: 10px; max-width: 760px; margin: 0 auto; }
+.faq-item {
+  background: rgba(255,251,235,0.04);
+  border: 1px solid rgba(251,191,36,0.1);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.faq-q {
+  width: 100%;
+  background: none;
+  border: none;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 0.97rem;
+  font-weight: 600;
+  padding: 18px 22px;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  transition: color 200ms;
+}
+.faq-q:hover { color: var(--gold); }
+.faq-arrow {
+  font-size: 1rem;
+  color: var(--gold);
+  transition: transform 300ms;
+  flex-shrink: 0;
+}
+.faq-item.open .faq-arrow { transform: rotate(180deg); }
+.faq-a {
+  display: none;
+  padding: 0 22px 18px;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.65;
+}
+.faq-item.open .faq-a { display: block; animation: fadeUp 0.25s ease both; }
+
+/* ===================== SECTION TITLE ===================== */
+.section-title { text-align: center; margin-bottom: 40px; }
+.section-title h2 { margin-bottom: 10px; }
+.section-title p  { color: var(--muted); max-width: 520px; margin: 0 auto; }
+.section-label {
+  display: inline-block;
+  background: rgba(251,191,36,0.1);
+  border: 1px solid rgba(251,191,36,0.2);
+  color: var(--gold);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 100px;
+  margin-bottom: 14px;
+}
+
+/* ===================== ARCHIVE PAGE ===================== */
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 36px;
+}
+.filter-btn {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: var(--muted);
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 8px 18px;
+  border-radius: 100px;
+  cursor: pointer;
+  transition: all 200ms;
+  min-height: 40px;
+}
+.filter-btn:hover  { color: var(--text); border-color: rgba(251,191,36,0.3); }
+.filter-btn.active {
+  background: rgba(251,191,36,0.12);
+  border-color: rgba(251,191,36,0.4);
+  color: var(--gold);
+}
+
+/* Bento grid */
+.bento {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--gap);
+}
+.bento-card {
+  background: rgba(255,251,235,0.05);
+  border: 1px solid rgba(251,191,36,0.12);
+  border-radius: var(--radius);
+  overflow: hidden;
+  position: relative;
+  transition: transform 220ms ease, box-shadow 220ms ease, opacity 300ms;
+  cursor: pointer;
+}
+.bento-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+  opacity: 0;
+  transition: opacity 300ms;
+  z-index: 2;
+}
+.bento-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,0.5); }
+.bento-card:hover::before { opacity: 1; }
+.bento-card.hidden { display: none; }
+.bento-card.featured { grid-column: span 2; }
+
+.card-preview {
+  aspect-ratio: 16/9;
+  background: linear-gradient(135deg, #1a1a2e, #0d0d1a);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.card-preview-icon {
+  width: 56px; height: 56px;
+  background: rgba(251,191,36,0.15);
+  border: 1.5px solid rgba(251,191,36,0.3);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  transition: background 200ms, transform 200ms;
+}
+.bento-card:hover .card-preview-icon {
+  background: rgba(251,191,36,0.25);
+  transform: scale(1.1);
+}
+.card-body { padding: 20px; }
+.card-tag {
+  display: inline-block;
+  background: rgba(251,191,36,0.1);
+  color: var(--gold);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 100px;
+  margin-bottom: 10px;
+}
+.card-title {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+  line-height: 1.35;
+}
+.card-meta {
+  color: var(--muted);
+  font-size: 0.78rem;
+  margin-bottom: 8px;
+}
+.card-desc {
+  color: var(--muted);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  margin-bottom: 16px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.btn-watch {
+  background: rgba(251,191,36,0.1);
+  border: 1px solid rgba(251,191,36,0.25);
+  color: var(--gold);
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  min-height: 40px;
+  transition: all 200ms;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.btn-watch:hover {
+  background: rgba(251,191,36,0.18);
+  border-color: rgba(251,191,36,0.5);
+  transform: translateY(-1px);
+}
+
+/* ===================== MODAL ===================== */
+.modal-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.8);
+  backdrop-filter: blur(8px);
+  z-index: 2000;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.modal-backdrop.open { display: flex; }
+.modal-box {
+  background: var(--bg2);
+  border: 1px solid rgba(251,191,36,0.15);
+  border-radius: 20px;
+  width: 100%;
+  max-width: 780px;
+  position: relative;
+  animation: scaleIn 0.3s ease both;
+}
+.modal-header {
+  padding: 20px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.modal-title { font-size: 1rem; font-weight: 600; line-height: 1.35; }
+.modal-close {
+  background: rgba(255,255,255,0.08);
+  border: none;
+  color: var(--muted);
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 200ms, color 200ms;
+  font-family: inherit;
+}
+.modal-close:hover { background: rgba(255,255,255,0.14); color: var(--text); }
+.modal-player {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+  background: #0d0d1a;
+}
+.modal-player iframe {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  border: 0;
+}
+.modal-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: var(--muted);
+}
+.modal-placeholder-icon {
+  width: 64px; height: 64px;
+  background: rgba(251,191,36,0.1);
+  border: 1.5px solid rgba(251,191,36,0.25);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+}
+.modal-placeholder p { font-size: 0.9rem; color: var(--muted); }
+.modal-meta {
+  padding: 16px 24px;
+  color: var(--muted);
+  font-size: 0.82rem;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+/* ===================== ANNOUNCE PAGE ===================== */
+.announce-hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 80px 0 60px;
+  position: relative;
+  overflow: hidden;
+}
+.announce-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 70% 60% at 50% 40%, rgba(251,191,36,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+.announce-badge {
+  display: inline-block;
+  background: rgba(251,191,36,0.12);
+  border: 1px solid rgba(251,191,36,0.3);
+  color: var(--gold);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 6px 16px;
+  border-radius: 100px;
+  margin-bottom: 24px;
+}
+.announce-title {
+  font-size: clamp(1.8rem, 5vw, 3rem);
+  font-weight: 800;
+  margin-bottom: 20px;
+  line-height: 1.15;
+}
+.announce-date {
+  color: var(--muted);
+  font-size: 1.05rem;
+  margin-bottom: 36px;
+}
+.timer-big { gap: 16px; }
+.timer-big .timer-block {
+  min-width: 88px;
+  padding: 18px 22px;
+}
+.timer-big .timer-num { font-size: 2.6rem; }
+.timer-big .timer-label { font-size: 0.7rem; }
+
+.announce-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  text-align: left;
+  max-width: 480px;
+  margin: 0 auto;
+}
+.announce-list li {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  font-size: 0.95rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+.announce-list .check-icon {
+  background: rgba(251,191,36,0.12);
+  color: var(--gold);
+  border-radius: 50%;
+  width: 22px; height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  flex-shrink: 0;
+  margin-top: 1px;
+  font-weight: 700;
+}
+
+/* ===================== FOOTER ===================== */
+footer {
+  border-top: 1px solid rgba(255,255,255,0.06);
+  padding: 48px 0 32px;
+  margin-top: 0;
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr;
+  gap: 40px;
+  margin-bottom: 36px;
+}
+.footer-logo { font-size: 1.1rem; font-weight: 800; margin-bottom: 8px; }
+.footer-logo span { color: var(--gold); }
+.footer-desc { color: var(--muted); font-size: 0.85rem; line-height: 1.6; }
+.footer-col h4 {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 14px;
+}
+.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.footer-col ul li button, .footer-col ul li a {
+  background: none; border: none;
+  color: var(--muted);
+  font-family: inherit;
+  font-size: 0.88rem;
+  cursor: pointer;
+  text-decoration: none;
+  padding: 0;
+  transition: color 180ms;
+  text-align: left;
+}
+.footer-col ul li button:hover, .footer-col ul li a:hover { color: var(--text); }
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.05);
+  padding-top: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.footer-bottom p { color: var(--muted); font-size: 0.8rem; }
+.footer-links { display: flex; gap: 20px; }
+.footer-links a {
+  color: var(--muted);
+  font-size: 0.8rem;
+  text-decoration: none;
+  transition: color 180ms;
+}
+.footer-links a:hover { color: var(--text); }
+
+/* ===================== RESPONSIVE ===================== */
+@media (max-width: 900px) {
+  .hero-grid { grid-template-columns: 1fr; }
+  .speaker-avatar { display: none; }
+  .cards-row { grid-template-columns: 1fr; }
+  .bento { grid-template-columns: repeat(2, 1fr); }
+  .bento-card.featured { grid-column: span 2; }
+  .for-whom-grid { grid-template-columns: 1fr; }
+  .speaker-block { grid-template-columns: 1fr; text-align: center; }
+  .speaker-photo { margin: 0 auto; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 600px) {
+  .container { padding: 0 16px; }
+  .section { padding: 52px 0; }
+  .bento { grid-template-columns: 1fr; }
+  .bento-card.featured { grid-column: span 1; }
+  .timer-wrap { gap: 8px; }
+  .timer-block { min-width: 64px; padding: 12px 14px; }
+  .timer-num { font-size: 1.6rem; }
+  .nav-btn { padding: 8px 10px; font-size: 0.88rem; }
+  .btn-gold { padding: 10px 14px; font-size: 0.82rem; }
+  .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+  .footer-bottom { flex-direction: column; align-items: flex-start; }
+  .speaker-block { padding: 24px 20px; }
+  .cta-block { padding: 36px 20px; }
+  .timer-big .timer-num { font-size: 2rem; }
+  .timer-big .timer-block { min-width: 72px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===================== HEADER ===================== -->
+<header class="header">
+  <div class="container">
+    <div class="header-inner">
+      <div class="logo" onclick="showPage('page-webinar')">Платформа <span>Веб</span></div>
+      <nav class="nav">
+        <button class="nav-btn active" onclick="showPage('page-webinar'); setActive(this)">Вебинар</button>
+        <button class="nav-btn" onclick="showPage('page-archive'); setActive(this)">Архив</button>
+      </nav>
+      <a href="tg://resolve?domain=PlatformaWebBot&start=webinar" class="btn-gold">Записаться →</a>
+    </div>
+  </div>
+</header>
+
+<!-- ===================== СТРАНИЦА 1: ВЕБИНАР ===================== -->
+<div id="page-webinar" class="page active">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-grid">
+        <div class="hero-content">
+          <div class="badge"><span class="badge-dot"></span> Следующий вебинар</div>
+          <h1 class="shimmer">Бизнес Идея:<br>как найти и запустить<br>то, что работает</h1>
+          <p>Практический вебинар — разберём, какие идеи приносят деньги и как начать уже завтра</p>
+          <div class="hero-date">
+            <span class="hero-date-icon">📅</span>
+            Сегодня · 17:00 МСК
+          </div>
+          <div class="timer-wrap" id="timer1"></div>
+          <div class="hero-btn-wrap">
+            <a href="tg://resolve?domain=PlatformaWebBot&start=webinar" class="btn-hero" onclick="showConfirm()">
+              Получить ссылку в Telegram →
+            </a>
+            <span class="btn-hint">🔒 Ссылка придёт автоматически — вводить ничего не нужно</span>
+          </div>
+        </div>
+        <div class="speaker-avatar">
+          <img src="foto-main.jpg" alt="Спикер" style="width:100%;height:100%;object-fit:cover;">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LIVE PLAYER -->
+  <section class="section" style="padding-top:40px;padding-bottom:40px;">
+    <div class="container">
+      <div style="text-align:center;margin-bottom:20px;">
+        <span style="background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.4);color:#ef4444;padding:6px 18px;border-radius:100px;font-size:0.88rem;font-weight:700;letter-spacing:0.04em;">🔴 Прямой эфир</span>
+      </div>
+      <div style="border-radius:16px;overflow:hidden;border:1px solid rgba(251,191,36,0.2);box-shadow:0 0 60px rgba(251,191,36,0.08);">
+        <div style="position:relative;padding-top:56.25%;width:100%"><iframe src="https://kinescope.io/embed/0czXFyxjQ7TmRFz4vUusd5" allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write; screen-wake-lock;" frameborder="0" allowfullscreen style="position:absolute;width:100%;height:100%;top:0;left:0;"></iframe></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BENEFITS -->
+  <section class="section" style="padding-top:0;">
+    <div class="container">
+      <div class="section-title">
+        <div class="section-label">На вебинаре</div>
+        <h2>Что вы получите</h2>
+      </div>
+      <div class="cards-row">
+        <div class="card">
+          <span class="card-emoji">🧠</span>
+          <h3>Найдёте свою идею</h3>
+          <p>Поймёте, какие идеи реально работают, а какие только кажутся прибыльными — и как не ошибиться с выбором</p>
+        </div>
+        <div class="card">
+          <span class="card-emoji">📊</span>
+          <h3>Проверите за 1 день</h3>
+          <p>Простой способ протестировать идею без больших вложений — реальный инструмент, не теория</p>
+        </div>
+        <div class="card">
+          <span class="card-emoji">🚀</span>
+          <h3>Первый шаг уже завтра</h3>
+          <p>Конкретный план на первые 7 дней — что делать, чтобы сдвинуться с места и не потерять деньги</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOR WHOM -->
+  <section class="section" style="padding-top:0;">
+    <div class="container">
+      <div class="section-title">
+        <div class="section-label">Аудитория</div>
+        <h2>Это для вас?</h2>
+      </div>
+      <div class="for-whom-grid">
+        <div class="for-whom-col yes">
+          <h3>✅ Это для вас, если…</h3>
+          <ul>
+            <li><span class="check">✓</span>Хотите начать своё дело, но не знаете с чего начать</li>
+            <li><span class="check">✓</span>Есть несколько идей — не можете выбрать одну</li>
+            <li><span class="check">✓</span>Боитесь вложить деньги и прогореть</li>
+          </ul>
+        </div>
+        <div class="for-whom-col no">
+          <h3>✗ Не для вас, если…</h3>
+          <ul>
+            <li><span class="check" style="color:#ef4444;">✕</span>Ищете схему «быстрого заработка» без усилий</li>
+            <li><span class="check" style="color:#ef4444;">✕</span>Хотите готовый бизнес, который работает сам</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SPEAKER -->
+  <section class="section" style="padding-top:0;">
+    <div class="container">
+      <div class="section-title">
+        <div class="section-label">Спикер</div>
+        <h2>Кто ведёт вебинар</h2>
+      </div>
+      <div class="speaker-block">
+        <div class="speaker-photo">
+          <img src="foto-trener.jpg" alt="Владимир Лазарев" style="width:100%;height:100%;object-fit:cover;">
+        </div>
+        <div>
+          <div class="speaker-name">Владимир Лазарев</div>
+          <div class="speaker-role">Тренер по отношениям и бизнесу</div>
+          <div class="speaker-facts">
+            <span>10 лет практики</span>
+            <span>500+ клиентов прошли изменения</span>
+            <span>Автор программы «Живые отношения»</span>
+          </div>
+          <p class="speaker-bio">«Работаю с теми, кому важны настоящие отношения — не витрина. Без лекций и умных слов — только то, что помогает в реальной жизни.»</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA / REGISTER -->
+  <section class="section" style="padding-top:0;">
+    <div class="container">
+      <div class="cta-block" id="cta-register">
+        <div class="section-label">Регистрация</div>
+        <h2>Записаться на вебинар</h2>
+        <p class="cta-subtitle">Сегодня · 17:00 МСК · Бесплатно</p>
+        <a href="tg://resolve?domain=PlatformaWebBot&start=webinar" class="btn-cta" onclick="showConfirm()">
+          Записаться через Telegram →
+        </a>
+        <p class="btn-hint" style="justify-content:center;margin-top:12px;">🔒 Бот автоматически запишет вас и пришлёт ссылку за час до начала</p>
+      </div>
+      <div class="confirm-block" id="confirm-block">
+        <div class="confirm-icon">✅</div>
+        <h3>Вы записаны!</h3>
+        <p>Ссылка на вебинар придёт в Telegram за 60 минут до начала</p>
+        <p style="margin-top:8px;font-weight:600;color:var(--gold);">Вебинар сегодня в 17:00 МСК</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section" style="padding-top:0;">
+    <div class="container">
+      <div class="section-title">
+        <div class="section-label">FAQ</div>
+        <h2>Частые вопросы</h2>
+      </div>
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            Нужно ли что-то устанавливать?
+            <span class="faq-arrow">▾</span>
+          </button>
+          <div class="faq-a">Нет. Вебинар проходит прямо в браузере. Ссылка придёт в Telegram — нажали, открыли, смотрите.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            Будет ли запись вебинара?
+            <span class="faq-arrow">▾</span>
+          </button>
+          <div class="faq-a">Да. Все записи хранятся в разделе «Архив» — ссылка в меню наверху. Запись появляется в течение суток после эфира.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            Вебинар платный?
+            <span class="faq-arrow">▾</span>
+          </button>
+          <div class="faq-a">Участие в прямом эфире — бесплатно. Записи в архиве тоже открыты.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            Что если я опоздаю или не смогу прийти?
+            <span class="faq-arrow">▾</span>
+          </button>
+          <div class="faq-a">Ничего страшного. Запись появится в архиве. Сможете посмотреть в любое время.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            Как отписаться от уведомлений?
+            <span class="faq-arrow">▾</span>
+          </button>
+          <div class="faq-a">Напишите боту /stop — и он перестанет присылать напоминания.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-logo">Платформа <span>Веб</span></div>
+          <p class="footer-desc">Место для живых вебинаров и работающих техник</p>
+        </div>
+        <div class="footer-col">
+          <h4>Страницы</h4>
+          <ul>
+            <li><button onclick="showPage('page-webinar');setActiveByName('page-webinar')">Вебинар</button></li>
+            <li><button onclick="showPage('page-archive');setActiveByName('page-archive')">Архив</button></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Контакты</h4>
+          <ul>
+            <li><a href="https://t.me/PlatformaWebBot">Telegram: @PlatformaWebBot</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 Платформа Веб</p>
+        <div class="footer-links">
+          <a href="#">Политика конфиденциальности</a>
+          <a href="#">Оферта</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- ===================== СТРАНИЦА 2: АРХИВ ===================== -->
+<div id="page-archive" class="page">
+
+  <section class="section">
+    <div class="container">
+      <div class="section-title">
+        <div class="section-label">Записи</div>
+        <h2>Архив вебинаров</h2>
+        <p>Все записи в одном месте. Смотрите в удобное время.</p>
+      </div>
+
+      <!-- Filters -->
+      <div class="filter-bar">
+        <button class="filter-btn active" onclick="filterCards('все', this)">Все</button>
+        <button class="filter-btn" onclick="filterCards('отношения', this)">Отношения</button>
+        <button class="filter-btn" onclick="filterCards('флирт', this)">Флирт</button>
+        <button class="filter-btn" onclick="filterCards('практика', this)">Практика</button>
+        <button class="filter-btn" onclick="filterCards('бизнес', this)">Бизнес</button>
+      </div>
+
+      <!-- Bento grid -->
+      <div class="bento">
+
+        <div class="bento-card featured" data-category="отношения" onclick="openModal('Как говорить о важном, чтобы слышали','22 апреля 2026 · 1ч 24мин · Отношения')">
+          <div class="card-preview">
+            <div class="card-preview-icon">▷</div>
+          </div>
+          <div class="card-body">
+            <span class="card-tag">Отношения</span>
+            <div class="card-title">Как говорить о важном, чтобы слышали</div>
+            <div class="card-meta">22 апреля 2026 · 1ч 24мин</div>
+            <div class="card-desc">Разбираем, почему важные разговоры превращаются в конфликт — и как это остановить</div>
+            <button class="btn-watch">Смотреть ▶</button>
+          </div>
+        </div>
+
+        <div class="bento-card" data-category="флирт" onclick="openModal('Флирт без страха: как сделать первый шаг','15 апреля 2026 · 58мин · Флирт')">
+          <div class="card-preview">
+            <div class="card-preview-icon">▷</div>
+          </div>
+          <div class="card-body">
+            <span class="card-tag">Флирт</span>
+            <div class="card-title">Флирт без страха: как сделать первый шаг</div>
+            <div class="card-meta">15 апреля 2026 · 58мин</div>
+            <div class="card-desc">Практика: что говорить, как держаться, почему страх — это нормально</div>
+            <button class="btn-watch">Смотреть ▶</button>
+          </div>
+        </div>
+
+        <div class="bento-card" data-category="практика" onclick="openModal('Разбор реальных ситуаций','8 апреля 2026 · 1ч 12мин · Практика')">
+          <div class="card-preview">
+            <div class="card-preview-icon">▷</div>
+          </div>
+          <div class="card-body">
+            <span class="card-tag">Практика</span>
+            <div class="card-title">Разбор реальных ситуаций</div>
+            <div class="card-meta">8 апреля 2026 · 1ч 12мин</div>
+            <div class="card-desc">Слушатели присылали свои истории — разбираем вместе, находим выход</div>
+            <button class="btn-watch">Смотреть ▶</button>
+          </div>
+        </div>
+
+        <div class="bento-card" data-category="отношения" onclick="openModal('Почему мы снова выбираем одних и тех же','1 апреля 2026 · 1ч 5мин · Отношения')">
+          <div class="card-preview">
+            <div class="card-preview-icon">▷</div>
+          </div>
+          <div class="card-body">
+            <span class="card-tag">Отношения</span>
+            <div class="card-title">Почему мы снова выбираем одних и тех же</div>
+            <div class="card-meta">1 апреля 2026 · 1ч 5мин</div>
+            <div class="card-desc">О паттернах выбора партнёра. Не теория — конкретные признаки и как их замечать</div>
+            <button class="btn-watch">Смотреть ▶</button>
+          </div>
+        </div>
+
+        <div class="bento-card" data-category="практика" onclick="openModal('Три техники уверенного общения','25 марта 2026 · 47мин · Практика')">
+          <div class="card-preview">
+            <div class="card-preview-icon">▷</div>
+          </div>
+          <div class="card-body">
+            <span class="card-tag">Практика</span>
+            <div class="card-title">Три техники уверенного общения</div>
+            <div class="card-meta">25 марта 2026 · 47мин</div>
+            <div class="card-desc">Берём три ситуации и отрабатываем: что сказать, как сказать, что делать если...</div>
+            <button class="btn-watch">Смотреть ▶</button>
+          </div>
+        </div>
+
+        <div class="bento-card" data-category="бизнес" onclick="openModal('Как продавать свою экспертность, не продавая себя','18 марта 2026 · 1ч 30мин · Бизнес')">
+          <div class="card-preview">
+            <div class="card-preview-icon">▷</div>
+          </div>
+          <div class="card-body">
+            <span class="card-tag">Бизнес</span>
+            <div class="card-title">Как продавать свою экспертность, не продавая себя</div>
+            <div class="card-meta">18 марта 2026 · 1ч 30мин</div>
+            <div class="card-desc">Для тех, кто умеет помогать людям, но не умеет рассказывать об этом</div>
+            <button class="btn-watch">Смотреть ▶</button>
+          </div>
+        </div>
+
+        <div class="bento-card" data-category="бизнес" onclick="openModal('Отношения и деньги: что мешает зарабатывать','11 марта 2026 · 52мин · Бизнес')">
+          <div class="card-preview">
+            <div class="card-preview-icon">▷</div>
+          </div>
+          <div class="card-body">
+            <span class="card-tag">Бизнес</span>
+            <div class="card-title">Отношения и деньги: что мешает зарабатывать</div>
+            <div class="card-meta">11 марта 2026 · 52мин</div>
+            <div class="card-desc">О страхах, установках и реальных шагах — для экспертов и не только</div>
+            <button class="btn-watch">Смотреть ▶</button>
+          </div>
+        </div>
+
+      </div><!-- /bento -->
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-logo">Платформа <span>Веб</span></div>
+          <p class="footer-desc">Место для живых вебинаров и работающих техник</p>
+        </div>
+        <div class="footer-col">
+          <h4>Страницы</h4>
+          <ul>
+            <li><button onclick="showPage('page-webinar');setActiveByName('page-webinar')">Вебинар</button></li>
+            <li><button onclick="showPage('page-archive');setActiveByName('page-archive')">Архив</button></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Контакты</h4>
+          <ul>
+            <li><a href="https://t.me/PlatformaWebBot">@PlatformaWebBot</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 Платформа Веб</p>
+        <div class="footer-links">
+          <a href="#">Политика конфиденциальности</a>
+          <a href="#">Оферта</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- ===================== СТРАНИЦА 3: АНОНС ===================== -->
+<div id="page-announce" class="page">
+  <section class="announce-hero">
+    <div class="container">
+      <div class="announce-badge">Бесплатный вебинар</div>
+      <h1 class="announce-title shimmer">Бизнес Идея:<br>как найти и запустить то, что работает</h1>
+      <p class="announce-date">📅 Сегодня · 17:00 МСК</p>
+      <div class="timer-wrap timer-big" id="timer2" style="justify-content:center;margin-bottom:40px;"></div>
+      <a href="tg://resolve?domain=PlatformaWebBot&start=webinar" class="btn-hero" style="margin:0 auto 48px;">
+        Записаться — это бесплатно →
+      </a>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;max-width:760px;margin:0 auto;text-align:left;">
+        <div>
+          <p class="section-label" style="margin-bottom:16px;">Что будет</p>
+          <ul class="announce-list">
+            <li><span class="check-icon">✓</span>Разберём, как выбрать идею под ваши ресурсы и навыки</li>
+            <li><span class="check-icon">✓</span>Научитесь проверять идею быстро — без больших вложений</li>
+            <li><span class="check-icon">✓</span>Получите пошаговый план первых 7 дней</li>
+          </ul>
+        </div>
+        <div>
+          <p class="section-label" style="margin-bottom:16px;">Для кого</p>
+          <ul class="announce-list">
+            <li><span class="check-icon">→</span>Хотите понять, что мешает вашим отношениям</li>
+            <li><span class="check-icon">→</span>Чувствуете, что говорите — но вас не слышат</li>
+            <li><span class="check-icon">→</span>Хотите отношения на равных</li>
+            <li><span class="check-icon">→</span>Или просто хотите посмотреть, о чём речь</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0;">
+    <div class="container">
+      <div class="cta-block">
+        <h2>Занять место на вебинаре</h2>
+        <p class="cta-subtitle">Мест ограничено. Ссылка придёт в Telegram перед началом.</p>
+        <a href="tg://resolve?domain=PlatformaWebBot&start=webinar" class="btn-cta">
+          Получить место →
+        </a>
+        <p class="btn-hint" style="justify-content:center;margin-top:12px;">Бесплатно · Онлайн · Сегодня в 17:00</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="footer-bottom">
+        <p>© 2026 Платформа Веб</p>
+        <div class="footer-links">
+          <a href="#">Политика конфиденциальности</a>
+          <a href="#">Оферта</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- ===================== MODAL ===================== -->
+<div class="modal-backdrop" id="modal" onclick="closeModalOutside(event)">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-title" id="modal-title"></div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-player">
+      <iframe src="https://kinescope.io/embed/azXf5NmDJPHyXkUGDDxbf5" allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write; screen-wake-lock;" frameborder="0" allowfullscreen style="position:absolute;width:100%;height:100%;top:0;left:0;"></iframe>
+    </div>
+    <div class="modal-meta" id="modal-meta"></div>
+  </div>
+</div>
+
+<script>
+// ===================== PAGE SWITCH =====================
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+function setActive(el) {
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+}
+function setActiveByName(pageId) {
+  const map = { 'page-webinar': 0, 'page-archive': 1 };
+  const btns = document.querySelectorAll('.nav-btn');
+  btns.forEach(b => b.classList.remove('active'));
+  if (map[pageId] !== undefined) btns[map[pageId]].classList.add('active');
+}
+
+// ===================== COUNTDOWN TIMER =====================
+function startCountdown(targetDate, containerId) {
+  function update() {
+    const el = document.getElementById(containerId);
+    if (!el) return;
+    const diff = new Date(targetDate) - new Date();
+    if (diff <= 0) {
+      el.innerHTML = '<div class="timer-block"><span class="timer-num" style="font-size:1.2rem;">Вебинар начался!</span></div>';
+      return;
+    }
+    const d = Math.floor(diff / 86400000);
+    const h = Math.floor((diff % 86400000) / 3600000);
+    const m = Math.floor((diff % 3600000) / 60000);
+    const s = Math.floor((diff % 60000) / 1000);
+    el.innerHTML = `
+      <div class="timer-block"><span class="timer-num">${String(d).padStart(2,'0')}</span><span class="timer-label">ДНИ</span></div>
+      <div class="timer-block"><span class="timer-num">${String(h).padStart(2,'0')}</span><span class="timer-label">ЧАС</span></div>
+      <div class="timer-block"><span class="timer-num">${String(m).padStart(2,'0')}</span><span class="timer-label">МИН</span></div>
+      <div class="timer-block"><span class="timer-num">${String(s).padStart(2,'0')}</span><span class="timer-label">СЕК</span></div>`;
+  }
+  update();
+  setInterval(update, 1000);
+}
+startCountdown('2026-05-12T17:00:00', 'timer1');
+startCountdown('2026-05-12T17:00:00', 'timer2');
+
+// ===================== CONFIRM REGISTER =====================
+function showConfirm() {
+  setTimeout(() => {
+    const cta = document.getElementById('cta-register');
+    const confirm = document.getElementById('confirm-block');
+    if (cta) cta.style.display = 'none';
+    if (confirm) confirm.classList.add('visible');
+  }, 300);
+}
+
+// ===================== FAQ =====================
+function toggleFaq(btn) {
+  const item = btn.parentElement;
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+
+// ===================== ARCHIVE FILTER =====================
+function filterCards(cat, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.bento-card').forEach(card => {
+    if (cat === 'все' || card.dataset.category === cat) {
+      card.classList.remove('hidden');
+    } else {
+      card.classList.add('hidden');
+    }
+  });
+}
+
+// ===================== MODAL =====================
+function openModal(title, meta) {
+  document.getElementById('modal-title').textContent = title;
+  document.getElementById('modal-meta').textContent = meta;
+  document.getElementById('modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+  document.getElementById('modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function closeModalOutside(e) {
+  if (e.target === document.getElementById('modal')) closeModal();
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+</script>
+</body>
+</html>
