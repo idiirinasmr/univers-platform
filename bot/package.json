@@ -1,0 +1,13 @@
+{
+  "name": "platform-veb-bot",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "grammy": "^1.21.0",
+    "node-schedule": "^2.1.1",
+    "dotenv": "^16.0.0"
+  }
+}
