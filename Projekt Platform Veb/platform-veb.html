@@ -947,10 +947,9 @@ footer {
         <span style="background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.4);color:#ef4444;padding:6px 18px;border-radius:100px;font-size:0.88rem;font-weight:700;letter-spacing:0.04em;">🔴 Прямой эфир</span>
       </div>
       <div style="border-radius:16px;overflow:hidden;border:1px solid rgba(251,191,36,0.2);box-shadow:0 0 60px rgba(251,191,36,0.08);">
-        <div style="position:relative;padding-top:62%;width:100%">
-          <!-- Экран входа -->
-          <div id="jaas-prejoin" style="position:absolute;width:100%;height:100%;top:0;left:0;display:flex;align-items:center;justify-content:center;background:#0d0d1a;overflow-y:auto;">
-            <div style="text-align:center;padding:20px;max-width:360px;width:100%;">
+          <!-- Экран входа — свободная высота, всё видно на мобильном -->
+          <div id="jaas-prejoin" style="display:flex;align-items:center;justify-content:center;background:#0d0d1a;padding:32px 20px;">
+            <div style="text-align:center;max-width:360px;width:100%;">
               <div style="font-size:2.5rem;margin-bottom:12px;">🎥</div>
               <h3 style="color:#fbbf24;margin-bottom:8px;font-size:1.3rem;">Войти в эфир</h3>
               <p style="color:#9ca3af;font-size:0.9rem;margin-bottom:24px;">Введите имя и нажмите «Войти»</p>
@@ -971,9 +970,10 @@ footer {
               <div id="jaas-error" style="color:#ef4444;font-size:0.85rem;margin-top:12px;display:none;"></div>
             </div>
           </div>
-          <!-- JaaS контейнер -->
-          <div id="jaas-container" style="position:absolute;width:100%;height:100%;top:0;left:0;display:none;"></div>
-        </div>
+          <!-- JaaS видео — показывается только после входа -->
+          <div id="jaas-video-wrapper" style="position:relative;padding-top:62%;width:100%;display:none;">
+            <div id="jaas-container" style="position:absolute;width:100%;height:100%;top:0;left:0;"></div>
+          </div>
       </div>
       <p style="text-align:center;margin-top:12px;color:#9ca3af;font-size:0.85rem;">Спикер — нажмите «Я ведущий» и введите пароль. Зрители — просто введите имя.</p>
     </div>
@@ -1607,8 +1607,8 @@ async function joinJaaS() {
     script.onload = () => {
       clearTimeout(timeoutId);
       document.getElementById('jaas-prejoin').style.display = 'none';
+      document.getElementById('jaas-video-wrapper').style.display = 'block';
       const container = document.getElementById('jaas-container');
-      container.style.display = 'block';
       new window.JitsiMeetExternalAPI('8x8.vc', {
         roomName: JAAS_APP_ID + '/' + JAAS_ROOM,
         jwt: jwt,
