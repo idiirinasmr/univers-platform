@@ -1580,13 +1580,31 @@ async function joinJaaS() {
   errEl.style.display = 'none';
 
   document.getElementById('jaas-prejoin').innerHTML =
-    '<div style="color:#fbbf24;font-size:1rem;padding:40px;">Подключение...</div>';
+    '<div style="color:#fbbf24;font-size:1rem;padding:40px;text-align:center;">' +
+    '<div style="font-size:2rem;margin-bottom:16px;animation:pulse-dot 1.2s ease-in-out infinite;">⏳</div>' +
+    '<div style="font-size:1.1rem;font-weight:700;margin-bottom:8px;">Подключаемся к эфиру...</div>' +
+    '<div style="color:#9ca3af;font-size:0.9rem;">Загрузка занимает 20–30 секунд.<br>Пожалуйста, не закрывайте страницу.</div>' +
+    '</div>';
+
+  const timeoutId = setTimeout(() => {
+    const el = document.getElementById('jaas-prejoin');
+    if (el && el.style.display !== 'none') {
+      el.innerHTML =
+        '<div style="padding:32px;text-align:center;">' +
+        '<div style="font-size:2rem;margin-bottom:12px;">😔</div>' +
+        '<div style="color:#ef4444;font-weight:700;margin-bottom:8px;">Не удалось подключиться</div>' +
+        '<div style="color:#9ca3af;font-size:0.9rem;margin-bottom:20px;">Ваш провайдер блокирует видеосервис.<br>Попробуйте включить VPN или обновите страницу.</div>' +
+        '<button onclick="location.reload()" style="padding:12px 24px;background:#fbbf24;color:#0d0d1a;border:none;border-radius:10px;font-weight:700;cursor:pointer;font-size:1rem;">Обновить страницу</button>' +
+        '</div>';
+    }
+  }, 40000);
 
   try {
     const jwt = await generateJaaSJWT(name, isModerator);
     const script = document.createElement('script');
     script.src = 'https://8x8.vc/' + JAAS_APP_ID + '/external_api.js';
     script.onload = () => {
+      clearTimeout(timeoutId);
       document.getElementById('jaas-prejoin').style.display = 'none';
       const container = document.getElementById('jaas-container');
       container.style.display = 'block';
@@ -1613,11 +1631,18 @@ async function joinJaaS() {
       });
     };
     script.onerror = () => {
+      clearTimeout(timeoutId);
       document.getElementById('jaas-prejoin').innerHTML =
-        '<div style="color:#ef4444;padding:40px;text-align:center;">Ошибка подключения. Обновите страницу.</div>';
+        '<div style="padding:32px;text-align:center;">' +
+        '<div style="font-size:2rem;margin-bottom:12px;">😔</div>' +
+        '<div style="color:#ef4444;font-weight:700;margin-bottom:8px;">Не удалось подключиться</div>' +
+        '<div style="color:#9ca3af;font-size:0.9rem;margin-bottom:20px;">Попробуйте включить VPN или обновите страницу.</div>' +
+        '<button onclick="location.reload()" style="padding:12px 24px;background:#fbbf24;color:#0d0d1a;border:none;border-radius:10px;font-weight:700;cursor:pointer;font-size:1rem;">Обновить страницу</button>' +
+        '</div>';
     };
     document.head.appendChild(script);
   } catch(e) {
+    clearTimeout(timeoutId);
     document.getElementById('jaas-prejoin').innerHTML =
       '<div style="color:#ef4444;padding:40px;text-align:center;">Ошибка. Обновите страницу и попробуйте снова.</div>';
   }
