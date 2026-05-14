@@ -896,7 +896,10 @@ footer {
 <header class="header">
   <div class="container">
     <div class="header-inner">
-      <div class="logo" onclick="showPage('page-webinar')" style="display:flex;align-items:center;gap:10px;cursor:pointer;"><img src="foto-main.jpg" alt="Логотип" style="height:38px;width:38px;border-radius:8px;object-fit:cover;flex-shrink:0;">Платформа <span>Веб</span></div>
+      <div class="logo" onclick="showPage('page-webinar')" style="display:flex;align-items:center;gap:10px;cursor:pointer;">
+        <img src="Фото на первую страницу.jpg" alt="Логотип" style="height:38px;width:38px;border-radius:8px;object-fit:cover;flex-shrink:0;">
+        Платформа <span>Веб</span>
+      </div>
       <nav class="nav">
         <button class="nav-btn active" onclick="showPage('page-webinar'); setActive(this)">Вебинар</button>
         <button class="nav-btn" onclick="showPage('page-archive'); setActive(this)">Архив</button>
@@ -930,7 +933,7 @@ footer {
           </div>
         </div>
         <div class="speaker-avatar">
-          <img src="foto-main.jpg" alt="Спикер" style="width:100%;height:100%;object-fit:cover;">
+          <img src="Фото на первую страницу.jpg" alt="Спикер" style="width:100%;height:100%;object-fit:cover;">
         </div>
       </div>
     </div>
@@ -944,14 +947,34 @@ footer {
       </div>
       <div style="border-radius:16px;overflow:hidden;border:1px solid rgba(251,191,36,0.2);box-shadow:0 0 60px rgba(251,191,36,0.08);">
         <div style="position:relative;padding-top:62%;width:100%">
-          <iframe
-            src="https://meet.jit.si/PlatformVeb2026BiznesIdea#config.prejoinPageEnabled=false&config.startWithVideoMuted=true&config.startWithAudioMuted=true&config.defaultLanguage=ru"
-            allow="camera; microphone; fullscreen; display-capture; autoplay"
-            style="position:absolute;width:100%;height:100%;top:0;left:0;border:0;">
-          </iframe>
+          <!-- Экран входа -->
+          <div id="jaas-prejoin" style="position:absolute;width:100%;height:100%;top:0;left:0;display:flex;align-items:center;justify-content:center;background:#0d0d1a;">
+            <div style="text-align:center;padding:32px;max-width:360px;width:100%;">
+              <div style="font-size:2.5rem;margin-bottom:12px;">🎥</div>
+              <h3 style="color:#fbbf24;margin-bottom:8px;font-size:1.3rem;">Войти в эфир</h3>
+              <p style="color:#9ca3af;font-size:0.9rem;margin-bottom:24px;">Введите имя и нажмите «Войти»</p>
+              <input id="jaas-name" type="text" placeholder="Ваше имя"
+                style="width:100%;padding:12px 16px;border-radius:10px;border:1px solid rgba(251,191,36,0.3);background:rgba(255,255,255,0.05);color:#e5e7eb;font-size:1rem;margin-bottom:12px;outline:none;box-sizing:border-box;">
+              <div id="host-password-section" style="display:none;margin-bottom:12px;">
+                <input id="jaas-host-password" type="password" placeholder="Пароль ведущего"
+                  style="width:100%;padding:12px 16px;border-radius:10px;border:1px solid rgba(239,68,68,0.3);background:rgba(255,255,255,0.05);color:#e5e7eb;font-size:1rem;outline:none;box-sizing:border-box;">
+              </div>
+              <button onclick="toggleHostSection()"
+                style="width:100%;padding:10px;border-radius:10px;border:1px solid rgba(251,191,36,0.2);background:transparent;color:#9ca3af;font-size:0.85rem;cursor:pointer;margin-bottom:12px;">
+                Я ведущий (только для спикера)
+              </button>
+              <button onclick="joinJaaS()"
+                style="width:100%;padding:14px;border-radius:10px;border:none;background:#fbbf24;color:#0d0d1a;font-size:1rem;font-weight:700;cursor:pointer;">
+                Войти в эфир →
+              </button>
+              <div id="jaas-error" style="color:#ef4444;font-size:0.85rem;margin-top:12px;display:none;"></div>
+            </div>
+          </div>
+          <!-- JaaS контейнер -->
+          <div id="jaas-container" style="position:absolute;width:100%;height:100%;top:0;left:0;display:none;"></div>
         </div>
       </div>
-      <p style="text-align:center;margin-top:12px;color:#9ca3af;font-size:0.85rem;">Спикер — включите камеру и микрофон. Зрители — просто смотрите.</p>
+      <p style="text-align:center;margin-top:12px;color:#9ca3af;font-size:0.85rem;">Спикер — нажмите «Я ведущий» и введите пароль. Зрители — просто введите имя.</p>
     </div>
   </section>
 
@@ -1018,7 +1041,7 @@ footer {
       </div>
       <div class="speaker-block">
         <div class="speaker-photo">
-          <img src="foto-trener.jpg" alt="Владимир Лазарев" style="width:100%;height:100%;object-fit:cover;">
+          <img src="Фото тренера.jpg" alt="Владимир Лазарев" style="width:100%;height:100%;object-fit:cover;">
         </div>
         <div>
           <div class="speaker-name">Владимир Лазарев</div>
@@ -1400,8 +1423,8 @@ function startCountdown(targetDate, containerId) {
   update();
   setInterval(update, 1000);
 }
-startCountdown('2026-05-12T10:00:00', 'timer1');
-startCountdown('2026-05-12T10:00:00', 'timer2');
+startCountdown('2026-05-14T19:00:00', 'timer1');
+startCountdown('2026-05-14T19:00:00', 'timer2');
 
 // ===================== CONFIRM REGISTER =====================
 function showConfirm() {
@@ -1449,6 +1472,156 @@ function closeModalOutside(e) {
   if (e.target === document.getElementById('modal')) closeModal();
 }
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+// ===================== JaaS (8x8 Jitsi as a Service) =====================
+const JAAS_APP_ID = 'vpaas-magic-cookie-d4ef6b27ec114f9eaf4cc12b46429f1c';
+const JAAS_KEY_ID = 'vpaas-magic-cookie-d4ef6b27ec114f9eaf4cc12b46429f1c/eb9e3c';
+const JAAS_HOST_PASSWORD = 'vlad2026';
+const JAAS_ROOM = 'PlatformVebBiznesIdea2026';
+const JAAS_PRIVATE_KEY = `-----BEGIN PRIVATE KEY-----
+MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCOzoppI7mwtepT
+sRZyBjILBOgrsJJIpc+xU+/blQq/R5n5EOd9rRNbSMs7Q41qmbv3OQyujb3jj6PH
+BrtVO6cl5DYHdUDaBmRTWciMli3jvOXwB6FJi+BeOGlJeB2XZ4UbQ1Zy2Vab/IN0
+B+wuMyZyEw8Vv2faoVsUQEt8nBR2hV1aBrPKyG51CKmCfz57xDdQjpG4SCst5L4P
++oiELFXA/r67fU+qgBB9SzsHL3+Tj6BArDYXgzGfiTUnTpLAiawu8QSQAgD27kkr
+06sFPO8mp8bmgLMO/eWVKCKZs2iB/ctw0NIdsjycBOH/WMbgoCdvPjDte8+Fwuxz
+sa5LiGQDAgMBAAECggEAY0La4CPN4S9BFjUkBdOamyApBJ0xwL9H8tkGApnBI51w
+P7fpP+i6aJvbb3EP7cW36ipET1wEXhUsYJ2kPqU9FFBg4aQ1lJYWy/y/MkD82qwl
+I0caa5WHOdZ6EHAmGWQCGCYhA6lf0wKcmF0dZCt3kJkAxjwJwuSe+x+JmK6gZpRW
+5SwaviYAzPXQL0vShLzQB3/sewku0fjsOq0tqRZ6uHBtlUTcgyrwRiAOJeH7cJC7
+qV3+DWavljf+8dfKb9/w7UZ0d0X/hH0N2JkGt7EHDz9CoEaVwswXjCk82eJc6//K
+ETgfp8ktXdHDkbdJq4UaqDByF7Svry3vhfIRgj5BWQKBgQDW5ScVmj+hN9CZQEzi
+xbJXbIZ7kpIdcYBdel0ttDI+wGofO+SVlrvCsbjtG06KcCSmy48uvUD/zF23u+Qu
+/W8cFXR+5c6POq1LwwRQBPCi2rcelH3bJVwwRlnAUbB/Y1MCBQAwlQbRLc/8Aibn
+wenAohJvHzqSTBgmiZJVggKwBwKBgQCqH2ms0nt9FuCIrIvZc6LPrQCj7h8oDu0j
+6M7s4xhDh1OKKWFcjrhxjcYmwGW8RKte6tKXfNme9mRFkKX/ZNWrqHECMMVO3gJL
+D36qCj2uqLAabv3KfYYc6d6i6gvxWc5jVkGYiXrUa42n4EJV4oaCJsi77p7kMlua
+Rvm8g9C1JQKBgQCCYRGvh6BnXgfPkzWSuMOVSyDkxG6mMoDhNiZmXlfFvtQkEyCC
+qatNWqqKIPEsCRITqJk8kFJpYELUAMlWwSiyb0n429DREZamyrFJI1YkWHKVuR4K
+4cXm/CfkCSv+ffKU3RfaYfB65UK08VFNd1ctKqfoh5fvvv9AEmOYQYMD7QKBgHI6
+t3VAu4RJqSh8W0b+ezLhIk3wZOE77IUxHEg5UCB/rFtX37ULa9Nrc8Kva2BX543L
+NO5c+a7gGIIRVzS+my4w4viqkMGdFoMZ+13nlHVDdUO6hRTC5hth+YkAiFZdi9Rt
+pYvrvBsHwM0ZKtGKUfDwY9a0qeHl4lYcFDI9fBU1AoGBAM2Wi0m4QTyc0cCJ/H3/
+BbXuLm8uplnTUuYiBEeZ2imexWgIz8oP8QmMQqgnBNqXhsAL2RfnQz4pOH4Iy7nC
+a6kSZRl6X7tPR9e6knC3pkXmXlaT5yTFy6m5YXI5Hik0t36/Dfl++j84lwhhSLsP
+GbHqLugn6E1D9m3D6NOmZoBY
+-----END PRIVATE KEY-----`;
+
+function toggleHostSection() {
+  const s = document.getElementById('host-password-section');
+  s.style.display = s.style.display === 'none' ? 'block' : 'none';
+}
+
+function pemToArrayBuffer(pem) {
+  const b64 = pem.replace(/-----[^-]+-----/g, '').replace(/\s/g, '');
+  const binary = atob(b64);
+  const buf = new ArrayBuffer(binary.length);
+  const view = new Uint8Array(buf);
+  for (let i = 0; i < binary.length; i++) view[i] = binary.charCodeAt(i);
+  return buf;
+}
+
+function base64UrlEncode(data) {
+  let base64;
+  if (typeof data === 'string') {
+    base64 = btoa(unescape(encodeURIComponent(data)));
+  } else {
+    const bytes = new Uint8Array(data);
+    let bin = '';
+    for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+    base64 = btoa(bin);
+  }
+  return base64.replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_');
+}
+
+async function generateJaaSJWT(userName, isModerator) {
+  const keyData = pemToArrayBuffer(JAAS_PRIVATE_KEY);
+  const privateKey = await crypto.subtle.importKey(
+    'pkcs8', keyData,
+    { name: 'RSASSA-PKCS1-v1_5', hash: 'SHA-256' },
+    false, ['sign']
+  );
+  const now = Math.floor(Date.now() / 1000);
+  const header = { alg: 'RS256', kid: JAAS_KEY_ID, typ: 'JWT' };
+  const payload = {
+    aud: 'jitsi', iss: 'chat',
+    iat: now, exp: now + 7200, nbf: now - 10,
+    sub: JAAS_APP_ID,
+    context: {
+      features: { livestreaming: false, recording: false, transcription: false },
+      user: {
+        'hidden-from-recorder': false,
+        moderator: isModerator,
+        name: userName,
+        id: 'u' + Math.random().toString(36).substr(2, 8),
+        avatar: '', email: ''
+      }
+    },
+    room: '*'
+  };
+  const enc = new TextEncoder();
+  const h = base64UrlEncode(JSON.stringify(header));
+  const p = base64UrlEncode(JSON.stringify(payload));
+  const sig = await crypto.subtle.sign('RSASSA-PKCS1-v1_5', privateKey, enc.encode(h + '.' + p));
+  return h + '.' + p + '.' + base64UrlEncode(sig);
+}
+
+async function joinJaaS() {
+  const name = document.getElementById('jaas-name').value.trim();
+  const errEl = document.getElementById('jaas-error');
+  if (!name) { errEl.textContent = 'Введите ваше имя'; errEl.style.display = 'block'; return; }
+
+  const hostVisible = document.getElementById('host-password-section').style.display !== 'none';
+  const password = document.getElementById('jaas-host-password').value.trim();
+  if (hostVisible && password !== JAAS_HOST_PASSWORD) {
+    errEl.textContent = 'Неверный пароль ведущего'; errEl.style.display = 'block'; return;
+  }
+  const isModerator = hostVisible && password === JAAS_HOST_PASSWORD;
+  errEl.style.display = 'none';
+
+  document.getElementById('jaas-prejoin').innerHTML =
+    '<div style="color:#fbbf24;font-size:1rem;padding:40px;">Подключение...</div>';
+
+  try {
+    const jwt = await generateJaaSJWT(name, isModerator);
+    const script = document.createElement('script');
+    script.src = 'https://8x8.vc/' + JAAS_APP_ID + '/external_api.js';
+    script.onload = () => {
+      document.getElementById('jaas-prejoin').style.display = 'none';
+      const container = document.getElementById('jaas-container');
+      container.style.display = 'block';
+      new window.JitsiMeetExternalAPI('8x8.vc', {
+        roomName: JAAS_APP_ID + '/' + JAAS_ROOM,
+        jwt: jwt,
+        parentNode: container,
+        width: '100%',
+        height: '100%',
+        configOverwrite: {
+          prejoinPageEnabled: false,
+          startWithVideoMuted: !isModerator,
+          startWithAudioMuted: !isModerator,
+          defaultLanguage: 'ru',
+          toolbarButtons: isModerator
+            ? ['microphone', 'camera', 'desktop', 'chat', 'hangup', 'tileview', 'fullscreen']
+            : ['microphone', 'camera', 'chat', 'hangup', 'tileview']
+        },
+        interfaceConfigOverwrite: {
+          SHOW_JITSI_WATERMARK: false,
+          SHOW_WATERMARK_FOR_GUESTS: false
+        },
+        userInfo: { displayName: name }
+      });
+    };
+    script.onerror = () => {
+      document.getElementById('jaas-prejoin').innerHTML =
+        '<div style="color:#ef4444;padding:40px;text-align:center;">Ошибка подключения. Обновите страницу.</div>';
+    };
+    document.head.appendChild(script);
+  } catch(e) {
+    document.getElementById('jaas-prejoin').innerHTML =
+      '<div style="color:#ef4444;padding:40px;text-align:center;">Ошибка. Обновите страницу и попробуйте снова.</div>';
+  }
+}
 </script>
 </body>
 </html>
