@@ -93,6 +93,12 @@ async function sendReminders() {
   console.log(`Напоминания отправлены: ${registrations.length} участников`);
 }
 
+// Автоматическая рассылка — 17 мая 18:00 МСК (15:00 UTC)
+schedule.scheduleJob('0 15 17 5 *', async () => {
+  await sendReminders();
+  console.log('Автоматическая рассылка напоминаний выполнена');
+});
+
 // Команда для ручной рассылки (для теста)
 bot.command("remind", async (ctx) => {
   if (String(ctx.from.id) !== String(OWNER_ID)) return;
